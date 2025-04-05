@@ -1,9 +1,10 @@
 import axios from "axios";
-let ViewPatient="http://localhost:8080/Hms/createPatients";
-let addp="";
+let ViewPatient="";
+let addp="http://localhost:8080/hms/createPatients";
+let showp="http://localhost:8080/hms/getAllPatients";
 class PatientsService{
     getPatients(){
-        return axios.get(ViewPatient);
+        return axios.get(showp);
     }
     CreatePatients(Patient){
         return axios.post(addp,Patient);
