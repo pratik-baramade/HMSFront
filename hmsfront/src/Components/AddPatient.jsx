@@ -24,7 +24,7 @@ let AddPatient = () => {
     let ShowPaitients = (e) => {
         e.preventDefault();
         let jsonobj = JSON.stringify(PData);
-        alert(PData.name + "\t" + PData.dob + "\t" + PData.gender + "\t" + PData.maritalstatus + "\t" + PData.mobailenumber + "\t" + PData.wpnumber + "\t" + PData.address);
+        // alert(PData.name + "\t" + PData.dob + "\t" + PData.gender + "\t" + PData.maritalstatus + "\t" + PData.mobailenumber + "\t" + PData.wpnumber + "\t" + PData.address);
 
         let promise = PatientsService.CreatePatients(PData);
         promise.then((res) => {
