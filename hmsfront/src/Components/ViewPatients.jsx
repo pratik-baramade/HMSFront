@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import PatientsService from "../PatientsService";
 import UpdatePatient from "./UpdatePatient";
+import Swal from "sweetalert2";
+
 
 let ViewPatients = () => {
     let [Patient, SetPatients] = useState([]);
@@ -35,20 +37,37 @@ const [currentPatient, setCurrentPatient] = useState(null);
       }, [searchText]);
 
       // Inside the component
-const handleDelete = (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to permanently delete this patient?");
-    if (confirmDelete) {
-      PatientsService.deletepatients(id)
-        .then(() => {
-          alert("Patient deleted successfully.");
-          fetchAllPatients(); // refresh
-        })
-        .catch(() => {
-          alert("Something went wrong while deleting.");
+      const handleDelete = (id) => {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            PatientsService.deletepatients(id)
+              .then(() => {
+                Swal.fire({
+                  title: "Deleted!",
+                  text: "Patient has been deleted.",
+                  icon: "success"
+                });
+                fetchAllPatients(); // refresh after deletion
+              })
+              .catch(() => {
+                Swal.fire({
+                  title: "Failed!",
+                  text: "Something went wrong while deleting.",
+                  icon: "error"
+                });
+              });
+          }
         });
-    }
-  };
-
+      };
+      
   const handleEdit = (patient) => {
     setCurrentPatient(patient);
     setEditMode(true);
