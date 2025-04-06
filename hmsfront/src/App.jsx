@@ -6,55 +6,65 @@ import lifelineLogo from './assets/lifeline.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './Components/HomePage';
 import VideoPlayer from './Components/VideoPlayer';
-import {BrowserRouter,Routes,Route,NavLink}from "react-router-dom";
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import AddPatient from './Components/AddPatient';
 import ViewPatients from './Components/ViewPatients';
 import AdminPanel from './Components/AdminPanel';
 
-
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
-    <BrowserRouter>
-    <div className="Wrapper">
-      <div className='row bg-info'>
-        <div className='col-2'>
-       
-
-<img src={lifelineLogo} alt="Lifeline Logo" className="img-fluid pt-2 ps-3" width={70}  />
-
+      <BrowserRouter>
+        {/* Navbar */}
+        <div className="Wrapper">
+          <div className="row align-items-center bg-info shadow-sm px-3 py-2">
+            <div className="col-md-2 col-3 d-flex align-items-center">
+              <img src={lifelineLogo} alt="Lifeline Logo" className="img-fluid" width={60} />
+            </div>
+            <div className="col-md-10 col-9">
+              <ul className="list-inline d-flex justify-content-center m-0 flex-wrap">
+                <li className="list-inline-item p-2">
+                  <NavLink to="/" className="text-white fw-bold text-decoration-none navlink">🏠 HOME</NavLink>
+                </li>
+                <li className="list-inline-item p-2">
+                  <NavLink to="/add" className="text-white fw-bold text-decoration-none navlink">🛠️ Admin</NavLink>
+                </li>
+                <li className="list-inline-item p-2">
+                  <NavLink to="/viewDoctours" className="text-white fw-bold text-decoration-none navlink">🩺 Doctors</NavLink>
+                </li>
+                <li className="list-inline-item p-2">
+                  <NavLink to="/User" className="text-white fw-bold text-decoration-none navlink">👤 User</NavLink>
+                </li>
+                <li className="list-inline-item p-2">
+                  <NavLink to="/About" className="text-white fw-bold text-decoration-none navlink">ℹ️ About</NavLink>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-    <div className='menu col'>
-    <ul className="list-inline d-flex justify-content-center"> 
-    <li className="list-inline-item p-3" ><NavLink to="/" className="navlink text-decoration-none text-white" id='n'>HOME</NavLink></li>
-    <li className="list-inline-item p-3 "><NavLink to="/add" className="navlink text-decoration-none text-white" id='n'>Admin</NavLink></li>
-    <li className="list-inline-item p-3 "><NavLink to="/viewDoctours" className="navlink text-decoration-none text-white" id='n'>Doctors</NavLink></li>
-    <li className="list-inline-item p-3 "><NavLink to="/User" className="navlink text-decoration-none text-white" id='n'>User</NavLink></li>
-    <li className="list-inline-item p-3 "><NavLink to="/About" className="navlink text-decoration-none text-white" id='n'  >About</NavLink></li>
-  </ul>
-  </div>
-  </div>
-  
-  </div>
-  <div className="slide container">
 
-  <Routes>
-    <Route path='/' element={<VideoPlayer/> }/>
-    <Route path='/add'element={<AdminPanel/>}/>
-    <Route path='//viewDoctours'element={<ViewPatients/>}/>
-    <Route path='/user'element={<h1>User</h1>}/>
-    <Route path='/About'element={<h1>About</h1>}/>
-    <Route/>
-    <Route/>
-
-  </Routes>
-  </div>
-    </BrowserRouter>
-      {/* <HomePage/> */}
+        {/* Main Content */}
+        <div className="slide container-fluid px-4"
+  style={{
+    paddingTop: '50px',       // <-- Push down the content
+    minHeight: 'calc(100vh - 80px)',
+  }}>
+          <Routes>
+            <Route path='/' element={<VideoPlayer />} />
+            <Route path='/add' element={<AdminPanel />} />
+            <Route path='//viewDoctours' element={<h1>Doctor Module</h1>
+            } />
+            <Route path='/user' element={<h1 className="text-center text-secondary">👤 User Panel Coming Soon</h1>} />
+            <Route path='/About' element={<h1 className="text-center text-secondary">📘 About Us</h1>} />
+            <Route />
+            <Route />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </>
   )
 }
 
-export default App
+export default App;
