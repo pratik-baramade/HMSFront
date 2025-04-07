@@ -7,8 +7,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './Components/HomePage';
 import VideoPlayer from './Components/VideoPlayer';
 import {BrowserRouter,Routes,Route,NavLink}from "react-router-dom";
-import AddPatient from './Components/AddPatient';
+
 import ViewPatients from './Components/ViewPatients';
+import AdminPanel from './Components/AdminPanel';
 
 
 function App() {
@@ -41,12 +42,13 @@ function App() {
 
   <Routes>
     <Route path='/' element={<VideoPlayer/> }/>
-    <Route path='/add'element={<AddPatient/>}/>
+    <Route path='/add'element={<AdminPanel/>}/>
     <Route path='//viewDoctours'element={<ViewPatients/>}/>
     <Route path='/user'element={<h1>User</h1>}/>
     <Route path='/About'element={<h1>About</h1>}/>
     <Route/>
     <Route/>
+
   </Routes>
   </div>
     </BrowserRouter>
