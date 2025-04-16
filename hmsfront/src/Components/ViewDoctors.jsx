@@ -114,13 +114,13 @@ const ViewDoctors = () => {
               {doctors.length > 0 ? (
                 doctors.map((doc, index) => (
                   <tr key={index}>
-                    <td>{doc.doctorId}</td>
+                    <td>{doc.doctorid}</td>
                     <td>{doc.name}</td>
                     <td>{doc.specialization}</td>
                     <td>{doc.contact}</td>
                     <td>{doc.availability}</td>
                     <td>
-                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(doc.doctorId)}>Delete</button>
+                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(doc.doctorid)}>Delete</button>
                     </td>
                     <td>
                       <button className="btn btn-warning btn-sm" onClick={() => handleEdit(doc)}>Update</button>

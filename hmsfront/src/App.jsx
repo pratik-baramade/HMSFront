@@ -29,13 +29,17 @@ function App() {
                   <NavLink to="/" className="text-white fw-bold text-decoration-none navlink">🏠 HOME</NavLink>
                 </li>
                 <li className="list-inline-item p-2">
-                  <NavLink to="/add" className="text-white fw-bold text-decoration-none navlink">🛠️ Admin</NavLink>
+                  <NavLink to="/admin" className="text-white fw-bold text-decoration-none navlink">🛠️ Admin</NavLink>
                 </li>
                 <li className="list-inline-item p-2">
-                  <NavLink to="/viewDoctours" className="text-white fw-bold text-decoration-none navlink">🩺 Doctors</NavLink>
+                  <NavLink to="/viewDoctors" className="text-white fw-bold text-decoration-none navlink">🩺 Doctors</NavLink>
                 </li>
                 <li className="list-inline-item p-2">
-                  <NavLink to="/User" className="text-white fw-bold text-decoration-none navlink">👤 User</NavLink>
+                  <NavLink to="/User" className="text-white fw-bold text-decoration-none navlink"> User</NavLink>
+                </li>
+
+                <li className="list-inline-item p-2">
+                  <NavLink to="/Recepationist" className="text-white fw-bold text-decoration-none navlink"> Receptionist</NavLink>
                 </li>
                 <li className="list-inline-item p-2">
                   <NavLink to="/About" className="text-white fw-bold text-decoration-none navlink">ℹ️ About</NavLink>
@@ -46,17 +50,14 @@ function App() {
         </div>
 
         {/* Main Content */}
-        <div className="slide container-fluid px-4"
-  style={{
-    paddingTop: '50px',       // <-- Push down the content
-    minHeight: 'calc(100vh - 80px)',
-  }}>
+        <div className="slide container-fluid px-4 " style={{ minHeight: "calc(100vh - 80px)",  paddingTop:'50px'}}>
           <Routes>
             <Route path='/' element={<VideoPlayer />} />
-            <Route path='/add' element={<AdminPanel />} />
-            <Route path='//viewDoctours' element={<h1>Doctor Module</h1>
+            <Route path='/admin' element={<AdminPanel />} />
+            <Route path='/viewDoctors' element={<h1>Doctor Module</h1>
             } />
             <Route path='/user' element={<h1 className="text-center text-secondary">👤 User Panel Coming Soon</h1>} />
+            <Route path="/Recepationist" element={<h1 className="text-center text-secondary">👤 Recepatinoist Panel Coming Soon</h1>}/>
             <Route path='/About' element={<h1 className="text-center text-secondary">📘 About Us</h1>} />
             <Route />
             <Route />
