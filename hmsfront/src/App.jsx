@@ -13,6 +13,9 @@ import AdminPanel from './Pages/AdminPanel';
 import PatientDashboard from './Pages/PatientDashboard';
 import BookAppointment from './Components/BookAppointment';
 
+
+
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -27,6 +30,10 @@ function App() {
             </div>
             <div className="col-md-10 col-9">
               <ul className="list-inline d-flex justify-content-center m-0 flex-wrap">
+              {/* <li className="list-inline-item p-2">
+                 <NavLink to="/login" className="text-white fw-bold text-decoration-none navlink">🔐 Login</NavLink>
+              </li> */}
+
                 <li className="list-inline-item p-2">
                   <NavLink to="/" className="text-white fw-bold text-decoration-none navlink">🏠 HOME</NavLink>
                 </li>
@@ -52,6 +59,7 @@ function App() {
         </div>
 
         {/* Main Content */}
+<<<<<<< HEAD
         <div className="slide container-fluid px-4 " style={{ minHeight: "calc(100vh - 80px)",  paddingTop:'50px'}}>
           <Routes>
             <Route path='/' element={<VideoPlayer />} />
@@ -65,6 +73,22 @@ function App() {
             <Route />
             <Route />
           </Routes>
+=======
+        <div className="slide container-fluid px-4"
+  style={{
+    paddingTop: '50px',       // <-- Push down the content
+    minHeight: 'calc(100vh - 80px)',
+  }}>
+        <Routes>
+           <Route path='/' element={<VideoPlayer />} />
+           <Route path='/add' element={<AdminPanel />} />
+           <Route path="/viewDoctors" element={<h1 className="text-center text-secondary">👨‍⚕️ Doctors Panel Coming Soon</h1>} />
+           <Route path="/user" element={<h1 className="text-center text-secondary">👤 User Panel Coming Soon</h1>} />
+           <Route path="/about" element={<h1 className="text-center text-secondary">ℹ️ About Page Coming Soon</h1>} />
+
+           
+</Routes>
+>>>>>>> b958b4d77e38ac2438beb8e541f2f25e162150d1
         </div>
       </BrowserRouter>
     </>
