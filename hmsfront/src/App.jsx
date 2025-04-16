@@ -9,7 +9,9 @@ import VideoPlayer from './Components/VideoPlayer';
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import AddPatient from './Components/AddPatient';
 import ViewPatients from './Components/ViewPatients';
-import AdminPanel from './Components/AdminPanel';
+import AdminPanel from './Pages/AdminPanel';
+import PatientDashboard from './Pages/PatientDashboard';
+import BookAppointment from './Components/BookAppointment';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -54,9 +56,10 @@ function App() {
           <Routes>
             <Route path='/' element={<VideoPlayer />} />
             <Route path='/admin' element={<AdminPanel />} />
-            <Route path='/viewDoctors' element={<h1>Doctor Module</h1>
-            } />
-            <Route path='/user' element={<h1 className="text-center text-secondary">👤 User Panel Coming Soon</h1>} />
+            <Route path='/viewDoctors' element={<h1>Doctor Module</h1>} />
+            <Route path='/user' element={<PatientDashboard/>} />
+           <Route path="/user/book-appointment" element={<BookAppointment/>} />
+
             <Route path="/Recepationist" element={<h1 className="text-center text-secondary">👤 Recepatinoist Panel Coming Soon</h1>}/>
             <Route path='/About' element={<h1 className="text-center text-secondary">📘 About Us</h1>} />
             <Route />

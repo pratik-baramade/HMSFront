@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import AddPatient from './AddPatient';
-import ViewPatients from './ViewPatients';
+import AddPatient from '../Components/AddPatient';
+import ViewPatients from '../Components/ViewPatients';
 import PatientsService from '../PatientsService';
-import AddDoctor from './AddDoctor';
-import ViewDoctors from './ViewDoctors';
+import AddDoctor from '../Components/AddDoctor';
+import ViewDoctors from '../Components/ViewDoctors';
 import DoctorsService from '../DoctorsService';
 
 const AdminPanel = () => {
