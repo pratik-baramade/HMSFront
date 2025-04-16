@@ -11,6 +11,9 @@ import AddPatient from './Components/AddPatient';
 import ViewPatients from './Components/ViewPatients';
 import AdminPanel from './Components/AdminPanel';
 
+
+
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -25,6 +28,10 @@ function App() {
             </div>
             <div className="col-md-10 col-9">
               <ul className="list-inline d-flex justify-content-center m-0 flex-wrap">
+              {/* <li className="list-inline-item p-2">
+                 <NavLink to="/login" className="text-white fw-bold text-decoration-none navlink">🔐 Login</NavLink>
+              </li> */}
+
                 <li className="list-inline-item p-2">
                   <NavLink to="/" className="text-white fw-bold text-decoration-none navlink">🏠 HOME</NavLink>
                 </li>
@@ -51,16 +58,15 @@ function App() {
     paddingTop: '50px',       // <-- Push down the content
     minHeight: 'calc(100vh - 80px)',
   }}>
-          <Routes>
-            <Route path='/' element={<VideoPlayer />} />
-            <Route path='/add' element={<AdminPanel />} />
-            <Route path='//viewDoctours' element={<h1>Doctor Module</h1>
-            } />
-            <Route path='/user' element={<h1 className="text-center text-secondary">👤 User Panel Coming Soon</h1>} />
-            <Route path='/About' element={<h1 className="text-center text-secondary">📘 About Us</h1>} />
-            <Route />
-            <Route />
-          </Routes>
+        <Routes>
+           <Route path='/' element={<VideoPlayer />} />
+           <Route path='/add' element={<AdminPanel />} />
+           <Route path="/viewDoctors" element={<h1 className="text-center text-secondary">👨‍⚕️ Doctors Panel Coming Soon</h1>} />
+           <Route path="/user" element={<h1 className="text-center text-secondary">👤 User Panel Coming Soon</h1>} />
+           <Route path="/about" element={<h1 className="text-center text-secondary">ℹ️ About Page Coming Soon</h1>} />
+
+           
+</Routes>
         </div>
       </BrowserRouter>
     </>

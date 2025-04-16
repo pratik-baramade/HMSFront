@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import AddPatient from './AddPatient';
 import ViewPatients from './ViewPatients';
 import PatientsService from '../PatientsService';
+import AddReceptionis from '../AddReceptionis';
+import ReceptionisService from '../ReceptionisService';
+import ViewReceptionists from '../ViewReceptionists';
 
 const AdminPanel = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -25,8 +28,22 @@ const AdminPanel = () => {
         console.error('Error fetching patients:', error);
       }
     };
-
     fetchPatientCount();
+  }, []);
+
+  useEffect(() => {
+    const fetchReceptionis = async () => {
+      try {
+        const res = await ReceptionisService.getReceptionis();
+        setCounts((prev) => ({
+          ...prev,
+          receptionists: res.data.length,
+        }));
+      } catch (error) {
+        console.error('Error fetching receptionists:', error);
+      }
+    };
+    fetchReceptionis();
   }, []);
 
   const handleModuleClick = (module) => {
@@ -48,7 +65,24 @@ const AdminPanel = () => {
             className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'view' ? 'bg-primary' : 'bg-dark'}`}
             onClick={() => setActiveComponent('view')}
           >
-             Show Patients
+            Show Patients
+          </button>
+        </div>
+      );
+    } else if (activeModule === 'receptionists') {
+      return (
+        <div className="d-flex justify-content-center gap-3 mb-4 flex-wrap">
+          <button
+            className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'add' ? 'bg-primary' : 'bg-dark'}`}
+            onClick={() => setActiveComponent('add')}
+          >
+            Add Receptionist
+          </button>
+          <button
+            className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'view' ? 'bg-primary' : 'bg-dark'}`}
+            onClick={() => setActiveComponent('view')}
+          >
+            Show Receptionists
           </button>
         </div>
       );
@@ -79,21 +113,21 @@ const AdminPanel = () => {
           onClick={() => handleModuleClick('patients')}
           className={`btn fw-semibold px-4 py-2 rounded-3 shadow-sm text-black ${activeModule === 'patients' ? 'bg-success' : 'bg-success'}`}
         >
-           Patients ({counts.patients})
+          Patients ({counts.patients})
         </button>
         <button
           onClick={() => handleModuleClick('doctors')}
           className={`btn fw-semibold px-4 py-2 rounded-3 shadow-sm text-black ${activeModule === 'doctors' ? 'bg-purple' : 'bg-purple-100'}`}
           style={{ backgroundColor: activeModule === 'doctors' ? '#6f42c1' : '#e0d4f5' }}
         >
-           Doctors ({counts.doctors})
+          Doctors ({counts.doctors})
         </button>
         <button
           onClick={() => handleModuleClick('receptionists')}
-          className={`btn fw-semibold px-4 py-2 rounded-3 shadow-sm text-black ${activeModule === 'receptionists' ? 'bg-pink' : 'bg-pink-100'}`}
-          style={{ backgroundColor: activeModule === 'receptionists' ? '#d63384' : '#fcdde9' }}
+          className={`btn fw-semibold px-4 py-2 rounded-3 shadow-sm text-black ${activeModule === 'receptionists' ? 'bg-success' : 'bg-success'}`}
+          
         >
-           Receptionists ({counts.receptionists})
+          Receptionists ({counts.receptionists})
         </button>
       </div>
 
@@ -107,9 +141,9 @@ const AdminPanel = () => {
         {activeModule === 'doctors' && (
           <p className="text-center text-purple fw-semibold">🩺 Doctors component coming soon...</p>
         )}
-        {activeModule === 'receptionists' && (
-          <p className="text-center text-danger fw-semibold">👩‍💼 Receptionists component coming soon...</p>
-        )}
+        {activeModule === 'receptionists' && activeComponent === 'add' && <AddReceptionis />}
+        {activeModule === 'receptionists' && activeComponent === 'view' && <ViewReceptionists/>}
+
         {!activeModule && (
           <p className="text-center text-muted">⬆️ Please select a module to begin.</p>
         )}
@@ -119,3 +153,4 @@ const AdminPanel = () => {
 };
 
 export default AdminPanel;
+

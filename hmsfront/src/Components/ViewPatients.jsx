@@ -1,78 +1,78 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import PatientsService from "../PatientsService";
 import UpdatePatient from "./UpdatePatient";
 import Swal from "sweetalert2";
 
+const ViewPatients = () => {
+  const [patients, setPatients] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [currentPatient, setCurrentPatient] = useState(null);
 
-let ViewPatients = () => {
-    let [Patient, SetPatients] = useState([]);
-    const [searchText, setSearchText] = useState("");
-    const [editMode, setEditMode] = useState(false);
-const [currentPatient, setCurrentPatient] = useState(null);
+  useEffect(() => {
+    fetchAllPatients();
+  }, []);
 
+  const fetchAllPatients = () => {
+    PatientsService.getPatients()
+      .then((res) => {
+        setPatients(res.data);
+        console.log("Fetched patients:", res.data);
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err);
+        setPatients([]);
+      });
+  };
 
-    useEffect(() => {
-        fetchAllPatients();
-      }, []);
+  useEffect(() => {
+    if (searchText.trim() === "") {
+      fetchAllPatients();
+    } else {
+      const timer = setTimeout(() => {
+        PatientsService.SearchPatients(searchText)
+          .then((res) => setPatients(res.data))
+          .catch((err) => {
+            console.error("Search error:", err);
+            setPatients([]);
+          });
+      }, 500);
 
-      const fetchAllPatients = () => {
-        PatientsService.getPatients()
-          .then((res) => SetPatients(res.data))
-          .catch(() => SetPatients([]));
-      };
+      return () => clearTimeout(timer);
+    }
+  }, [searchText]);
 
-      useEffect(() => {
-        if (searchText.trim() === "") {
-          fetchAllPatients();
-        } else {
-          const timer = setTimeout(() => {
-            PatientsService.SearchPatients(searchText)
-              .then((res) => SetPatients(res.data))
-              .catch(() => SetPatients([]));
-          }, 500); // debounce 500ms
-    
-          return () => clearTimeout(timer);
-        }
-      }, [searchText]);
+  const handleDelete = (id) => {
+    console.log("Deleting patient with ID:", id, typeof id);
 
-      // Inside the component
-      const handleDelete = (id) => {
-        Swal.fire({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-          if (result.isConfirmed) {
-            PatientsService.deletepatients(id)
-              .then(() => {
-                Swal.fire({
-                  title: "Deleted!",
-                  text: "Patient has been deleted.",
-                  icon: "success"
-                });
-                fetchAllPatients(); // refresh after deletion
-              })
-              .catch(() => {
-                Swal.fire({
-                  title: "Failed!",
-                  text: "Something went wrong while deleting.",
-                  icon: "error"
-                });
-              });
-          }
-        });
-      };
-      
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      console.log("SweetAlert result:", result);
+      if (result.isConfirmed) {
+        PatientsService.deletepatients(id)
+          .then(() => {
+            Swal.fire("Deleted!", "Patient has been deleted.", "success");
+            fetchAllPatients();
+          })
+          .catch((err) => {
+            console.error("Delete error:", err);
+            Swal.fire("Failed!", "Something went wrong while deleting.", "error");
+          });
+      }
+    });
+  };
+
   const handleEdit = (patient) => {
     setCurrentPatient(patient);
     setEditMode(true);
   };
-
 
   const handleUpdateSave = (updatedPatient) => {
     PatientsService.updatePatient(updatedPatient.patientId, updatedPatient)
@@ -82,19 +82,18 @@ const [currentPatient, setCurrentPatient] = useState(null);
         setEditMode(false);
         setCurrentPatient(null);
       })
-      .catch(() => alert("Failed to update patient"));
+      .catch((err) => {
+        console.error("Update failed:", err);
+        alert("Failed to update patient");
+      });
   };
-  
-  
 
-    
-    return (
-        
-            <div className="container mt-5">
+  return (
+    <div className="container mt-5">
       <div className="card shadow-lg p-4">
         <h3 className="text-center text-primary mb-3">Patients Record</h3>
 
-        {/* Search input */}
+        {/* Search */}
         <div className="mb-3">
           <input
             type="text"
@@ -105,6 +104,7 @@ const [currentPatient, setCurrentPatient] = useState(null);
           />
         </div>
 
+        {/* Table */}
         <div className="table-responsive" style={{ maxHeight: "500px", overflowY: "auto" }}>
           <table className="table table-hover table-striped table-bordered">
             <thead className="table-success sticky-top">
@@ -123,40 +123,55 @@ const [currentPatient, setCurrentPatient] = useState(null);
               </tr>
             </thead>
             <tbody>
-              {
-                Patient.length > 0 ? (
-                    Patient.map((e, index) => (
-                    <tr key={index}>
-                      <td>{e.patientId}</td>
-                      <td>{e.name}</td>
-                      <td>{e.dob}</td>
-                      <td>{e.gender}</td>
-                      <td>{e.maritalstatus}</td>
-                      <td>{e.address}</td>
-                      <td>{e.email}</td>
-                      <td>{e.wpnumber}</td>
-                      <td>{e.mobailenumber}</td>
-                      <td><button className="btn btn-danger btn-sm" onClick={() => handleDelete(e.patientId)}>Delete</button></td>
-                      <td><button className="btn btn-warning btn-sm" onClick={() => handleEdit(e)}>Update</button></td> 
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="11" className="text-center">No patients found</td>
+              {patients.length > 0 ? (
+                patients.map((patient, index) => (
+                  <tr key={index}>
+                    <td>{patient.patientId}</td>
+                    <td>{patient.name}</td>
+                    <td>{patient.dob}</td>
+                    <td>{patient.gender}</td>
+                    <td>{patient.maritalstatus}</td>
+                    <td>{patient.address}</td>
+                    <td>{patient.email}</td>
+                    <td>{patient.wpnumber}</td>
+                    <td>{patient.mobailenumber}</td>
+                    <td>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleDelete(patient.patientId)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-warning btn-sm"
+                        onClick={() => handleEdit(patient)}
+                      >
+                        Update
+                      </button>
+                    </td>
                   </tr>
-                )
-              }
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="11" className="text-center">
+                    No patients found
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
 
+        {/* Update section */}
         {editMode && currentPatient && (
-  <UpdatePatient
-    patient={currentPatient}
-    onUpdate={handleUpdateSave}
-    onCancel={() => setEditMode(false)}
-  />
-)}
+          <UpdatePatient
+            patient={currentPatient}
+            onUpdate={handleUpdateSave}
+            onCancel={() => setEditMode(false)}
+          />
+        )}
       </div>
     </div>
   );
