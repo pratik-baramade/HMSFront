@@ -1,8 +1,4 @@
 import axios from "axios";
-<<<<<<< HEAD
-
-=======
->>>>>>> b958b4d77e38ac2438beb8e541f2f25e162150d1
 let addp="http://localhost:8080/hms/createPatients";
 let showp="http://localhost:8080/hms/getAllPatients";
 let searchpatients="http://localhost:8080/hms/searchpatientsByName";

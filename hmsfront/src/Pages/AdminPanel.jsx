@@ -2,16 +2,12 @@ import React, { useState, useEffect } from 'react';
 import AddPatient from '../Components/AddPatient';
 import ViewPatients from '../Components/ViewPatients';
 import PatientsService from '../PatientsService';
-<<<<<<< HEAD:hmsfront/src/Pages/AdminPanel.jsx
 import AddDoctor from '../Components/AddDoctor';
 import ViewDoctors from '../Components/ViewDoctors';
 import DoctorsService from '../DoctorsService';
-=======
 import AddReceptionis from '../AddReceptionis';
 import ReceptionisService from '../ReceptionisService';
 import ViewReceptionists from '../ViewReceptionists';
->>>>>>> b958b4d77e38ac2438beb8e541f2f25e162150d1:hmsfront/src/Components/AdminPanel.jsx
-
 const AdminPanel = () => {
   const [activeModule, setActiveModule] = useState(null);
   const [activeComponent, setActiveComponent] = useState(null);
@@ -27,37 +23,22 @@ const AdminPanel = () => {
       try {
         const patientRes = await PatientsService.getPatients();
         const doctorRes = await DoctorsService.getDoctors();
+        const RecepatinoistRes=await ReceptionisService.getReceptionis();
         setCounts({
           patients: patientRes.data.length,
           doctors: doctorRes.data.length,
-          receptionists: 0, // You can update this later
+          receptionists: RecepatinoistRes.data.length,
         });
       } catch (error) {
         console.error("Error fetching counts:", error);
       }
     };
-<<<<<<< HEAD:hmsfront/src/Pages/AdminPanel.jsx
   
 
-=======
->>>>>>> b958b4d77e38ac2438beb8e541f2f25e162150d1:hmsfront/src/Components/AdminPanel.jsx
     fetchPatientCount();
   }, []);
 
-  useEffect(() => {
-    const fetchReceptionis = async () => {
-      try {
-        const res = await ReceptionisService.getReceptionis();
-        setCounts((prev) => ({
-          ...prev,
-          receptionists: res.data.length,
-        }));
-      } catch (error) {
-        console.error('Error fetching receptionists:', error);
-      }
-    };
-    fetchReceptionis();
-  }, []);
+ 
 
   const handleModuleClick = (module) => {
     setActiveModule(module);
@@ -172,21 +153,12 @@ const AdminPanel = () => {
         {activeModule === 'patients' && activeComponent === 'add' && <AddPatient />}
         {activeModule === 'patients' && activeComponent === 'view' && <ViewPatients />}
 
-<<<<<<< HEAD:hmsfront/src/Pages/AdminPanel.jsx
         {activeModule === 'doctors' && activeComponent === 'add' && <AddDoctor/>}
         {activeModule === 'doctors' && activeComponent === 'view' && <ViewDoctors />}
 
-        {activeModule === 'receptionists' && (
-          <p className="text-center text-danger fw-semibold">👩‍💼 Receptionists component coming soon...</p>
-        )}
-=======
-        {activeModule === 'doctors' && (
-          <p className="text-center text-purple fw-semibold">🩺 Doctors component coming soon...</p>
-        )}
         {activeModule === 'receptionists' && activeComponent === 'add' && <AddReceptionis />}
-        {activeModule === 'receptionists' && activeComponent === 'view' && <ViewReceptionists/>}
+        {activeModule === 'receptionists' && activeComponent === 'view' && <ViewReceptionists />}
 
->>>>>>> b958b4d77e38ac2438beb8e541f2f25e162150d1:hmsfront/src/Components/AdminPanel.jsx
         {!activeModule && (
           <p className="text-center text-muted">⬆️ Please select a module to begin.</p>
         )}

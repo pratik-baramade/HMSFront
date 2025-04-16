@@ -42,34 +42,7 @@ const ViewPatients = () => {
     }
   }, [searchText]);
 
-  const handleDelete = (id) => {
-    console.log("Deleting patient with ID:", id, typeof id);
-
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      console.log("SweetAlert result:", result);
-      if (result.isConfirmed) {
-        PatientsService.deletepatients(id)
-          .then(() => {
-            Swal.fire("Deleted!", "Patient has been deleted.", "success");
-            fetchAllPatients();
-          })
-          .catch((err) => {
-            console.error("Delete error:", err);
-            Swal.fire("Failed!", "Something went wrong while deleting.", "error");
-          });
-      }
-    });
-  };
-
-<<<<<<< HEAD
+  
       // Inside the component
       const handleDelete = (id) => {
         Swal.fire({
@@ -102,8 +75,7 @@ const ViewPatients = () => {
         });
       };
       
-=======
->>>>>>> b958b4d77e38ac2438beb8e541f2f25e162150d1
+
   const handleEdit = (patient) => {
     setCurrentPatient(patient);
     setEditMode(true);

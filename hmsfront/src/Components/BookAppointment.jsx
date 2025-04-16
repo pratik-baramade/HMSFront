@@ -52,21 +52,15 @@ const BookAppointment = () => {
         <form onSubmit={handleSubmit}>
           <div className="row g-3">
             <div className="col-md-6">
-              <label className="form-label">Patient</label>
-              <select
-                className="form-select"
+              <label className="form-label">Patient Name</label>
+              <input
+                type="text"
+                className="form-control"
                 name="patient_id"
                 value={formData.patient_id}
                 onChange={handleChange}
                 required
-              >
-                <option value="">Select Patient</option>
-                {patients.map((pat) => (
-                  <option key={pat.patient_id} value={pat.patient_id}>
-                    {pat.name} 
-                  </option>
-                ))}
-              </select>
+              />
             </div>
 
             <div className="col-md-6">
