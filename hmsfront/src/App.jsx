@@ -12,6 +12,7 @@ import ViewPatients from './Components/ViewPatients';
 import AdminPanel from './Pages/AdminPanel';
 import PatientDashboard from './Pages/PatientDashboard';
 import BookAppointment from './Components/BookAppointment';
+import DoctorDashboard from './Pages/DoctorDashboard';
 
 
 
@@ -62,10 +63,9 @@ function App() {
           <Routes>
             <Route path='/' element={<VideoPlayer />} />
             <Route path='/admin' element={<AdminPanel />} />
-            <Route path='/viewDoctors' element={<h1>Doctor Module</h1>} />
+            <Route path='/viewDoctors' element={<DoctorDashboard />} />
             <Route path='/user' element={<PatientDashboard/>} />
            <Route path="/user/book-appointment" element={<BookAppointment/>} />
-
             <Route path="/Recepationist" element={<h1 className="text-center text-secondary">👤 Recepatinoist Panel Coming Soon</h1>}/>
             <Route path='/About' element={<h1 className="text-center text-secondary">📘 About Us</h1>} />
            
