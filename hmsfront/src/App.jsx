@@ -13,6 +13,7 @@ import AdminPanel from './Pages/AdminPanel';
 import PatientDashboard from './Pages/PatientDashboard';
 import BookAppointment from './Components/BookAppointment';
 import DoctorDashboard from './Pages/DoctorDashboard';
+import AboutUs from './Pages/AboutUs';
 
 import Login from './Components/Login';
 
@@ -60,6 +61,7 @@ function App() {
         {/* Main Content */}
 
         <div className="slide container-fluid px-4 " style={{ minHeight: "calc(100vh - 80px)",  paddingTop:'50px'}}>
+<<<<<<< HEAD
         <Routes>
   <Route path='/' element={<VideoPlayer />} />
   <Route path="/login" element={<Login />} />
@@ -73,6 +75,18 @@ function App() {
   <Route path='/About' element={<h1 className="text-center text-secondary">📘 About Us</h1>} />
 </Routes>
 
+=======
+          <Routes>
+            <Route path='/' element={<VideoPlayer />} />
+            <Route path='/admin' element={<AdminPanel />} />
+            <Route path='/viewDoctors' element={<DoctorDashboard />} />
+            <Route path='/user' element={<PatientDashboard/>} />
+           <Route path="/user/book-appointment" element={<BookAppointment/>} />
+            <Route path="/Recepationist" element={<h1 className="text-center text-secondary">👤 Recepatinoist Panel Coming Soon</h1>}/>
+            <Route path='/About' element={<AboutUs/>} />
+           
+          </Routes>
+>>>>>>> 9497a3dd12d5680f415dda3961e066dc8be0fbb7
 
        
         </div>
