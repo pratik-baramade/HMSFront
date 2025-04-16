@@ -13,6 +13,7 @@ import AdminPanel from './Pages/AdminPanel';
 import PatientDashboard from './Pages/PatientDashboard';
 import BookAppointment from './Components/BookAppointment';
 import DoctorDashboard from './Pages/DoctorDashboard';
+import AboutUs from './Pages/AboutUs';
 
 
 
@@ -67,7 +68,7 @@ function App() {
             <Route path='/user' element={<PatientDashboard/>} />
            <Route path="/user/book-appointment" element={<BookAppointment/>} />
             <Route path="/Recepationist" element={<h1 className="text-center text-secondary">👤 Recepatinoist Panel Coming Soon</h1>}/>
-            <Route path='/About' element={<h1 className="text-center text-secondary">📘 About Us</h1>} />
+            <Route path='/About' element={<AboutUs/>} />
            
           </Routes>
 
