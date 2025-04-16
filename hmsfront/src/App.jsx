@@ -14,7 +14,7 @@ import PatientDashboard from './Pages/PatientDashboard';
 import BookAppointment from './Components/BookAppointment';
 import DoctorDashboard from './Pages/DoctorDashboard';
 
-
+import Login from './Components/Login';
 
 
 function App() {
@@ -40,14 +40,14 @@ function App() {
                   <NavLink to="/admin" className="text-white fw-bold text-decoration-none navlink">🛠️ Admin</NavLink>
                 </li>
                 <li className="list-inline-item p-2">
-                  <NavLink to="/viewDoctors" className="text-white fw-bold text-decoration-none navlink">🩺 Doctors</NavLink>
+                  <NavLink to="/login" className="text-white fw-bold text-decoration-none navlink">🩺 Doctors</NavLink>
                 </li>
                 <li className="list-inline-item p-2">
-                  <NavLink to="/User" className="text-white fw-bold text-decoration-none navlink"> Patients</NavLink>
+                  <NavLink to="/login" className="text-white fw-bold text-decoration-none navlink"> Patients</NavLink>
                 </li>
 
                 <li className="list-inline-item p-2">
-                  <NavLink to="/Recepationist" className="text-white fw-bold text-decoration-none navlink"> Receptionist</NavLink>
+                  <NavLink to="/login" className="text-white fw-bold text-decoration-none navlink"> Receptionist</NavLink>
                 </li>
                 <li className="list-inline-item p-2">
                   <NavLink to="/About" className="text-white fw-bold text-decoration-none navlink">ℹ️ About</NavLink>
@@ -60,16 +60,19 @@ function App() {
         {/* Main Content */}
 
         <div className="slide container-fluid px-4 " style={{ minHeight: "calc(100vh - 80px)",  paddingTop:'50px'}}>
-          <Routes>
-            <Route path='/' element={<VideoPlayer />} />
-            <Route path='/admin' element={<AdminPanel />} />
-            <Route path='/viewDoctors' element={<DoctorDashboard />} />
-            <Route path='/user' element={<PatientDashboard/>} />
-           <Route path="/user/book-appointment" element={<BookAppointment/>} />
-            <Route path="/Recepationist" element={<h1 className="text-center text-secondary">👤 Recepatinoist Panel Coming Soon</h1>}/>
-            <Route path='/About' element={<h1 className="text-center text-secondary">📘 About Us</h1>} />
-           
-          </Routes>
+        <Routes>
+  <Route path='/' element={<VideoPlayer />} />
+  <Route path="/login" element={<Login />} />
+  <Route path='/admin' element={<AdminPanel />} />
+  <Route path='/viewDoctors' element={<DoctorDashboard />} />
+  <Route path='/user' element={<PatientDashboard />} />
+  <Route path='/user/book-appointment' element={<BookAppointment />} />
+  <Route path='/receptionist/dashboard' element={<h1 className="text-center text-secondary">👤 Receptionist Panel Coming Soon</h1>} />
+  <Route path='/doctor/dashboard' element={<DoctorDashboard />} />
+  <Route path='/patient/dashboard' element={<PatientDashboard />} />
+  <Route path='/About' element={<h1 className="text-center text-secondary">📘 About Us</h1>} />
+</Routes>
+
 
        
         </div>

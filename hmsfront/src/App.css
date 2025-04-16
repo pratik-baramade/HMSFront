@@ -42,4 +42,20 @@
   .dropdown-item:hover {
     background-color: #f0f0ff;
   }
+  .login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('./assets/hospital-bg.jpeg') no-repeat center center;
+    background-size: cover;
+  }
+  
+  .login-card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 400px;
+  }
   
