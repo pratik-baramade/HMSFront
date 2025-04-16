@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import AddPatient from './AddPatient';
 import ViewPatients from './ViewPatients';
 import PatientsService from '../PatientsService';
+import AddDoctor from './AddDoctor';
+import ViewDoctors from './ViewDoctors';
+import DoctorsService from '../DoctorsService';
 
 const AdminPanel = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -16,15 +19,18 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchPatientCount = async () => {
       try {
-        const res = await PatientsService.getPatients();
-        setCounts((prev) => ({
-          ...prev,
-          patients: res.data.length,
-        }));
+        const patientRes = await PatientsService.getPatients();
+        const doctorRes = await DoctorsService.getDoctors();
+        setCounts({
+          patients: patientRes.data.length,
+          doctors: doctorRes.data.length,
+          receptionists: 0, // You can update this later
+        });
       } catch (error) {
-        console.error('Error fetching patients:', error);
+        console.error("Error fetching counts:", error);
       }
     };
+  
 
     fetchPatientCount();
   }, []);
@@ -35,6 +41,25 @@ const AdminPanel = () => {
   };
 
   const renderModuleButtons = () => {
+    if (activeModule === 'doctors') {
+      return (
+        <div className="d-flex justify-content-center gap-3 mb-4 flex-wrap">
+          <button
+            className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'add' ? 'bg-primary' : 'bg-dark'}`}
+            onClick={() => setActiveComponent('add')}
+          >
+            Add Doctor
+          </button>
+          <button
+            className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'view' ? 'bg-primary' : 'bg-dark'}`}
+            onClick={() => setActiveComponent('view')}
+          >
+            Show Doctors
+          </button>
+        </div>
+      );
+    }
+    
     if (activeModule === 'patients') {
       return (
         <div className="d-flex justify-content-center gap-3 mb-4 flex-wrap">
@@ -52,6 +77,8 @@ const AdminPanel = () => {
           </button>
         </div>
       );
+
+      
     }
     return null;
   };
@@ -104,9 +131,9 @@ const AdminPanel = () => {
         {activeModule === 'patients' && activeComponent === 'add' && <AddPatient />}
         {activeModule === 'patients' && activeComponent === 'view' && <ViewPatients />}
 
-        {activeModule === 'doctors' && (
-          <p className="text-center text-purple fw-semibold">🩺 Doctors component coming soon...</p>
-        )}
+        {activeModule === 'doctors' && activeComponent === 'add' && <AddDoctor/>}
+        {activeModule === 'doctors' && activeComponent === 'view' && <ViewDoctors />}
+
         {activeModule === 'receptionists' && (
           <p className="text-center text-danger fw-semibold">👩‍💼 Receptionists component coming soon...</p>
         )}

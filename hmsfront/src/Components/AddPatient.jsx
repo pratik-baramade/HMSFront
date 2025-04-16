@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import PatientsService from "../PatientsService";
+import Swal from "sweetalert2";
+
 
 const AddPatient = () => {
   const [PData, SetPatients] = useState({
@@ -25,9 +27,32 @@ const AddPatient = () => {
   const ShowPaitients = (e) => {
     e.preventDefault();
     PatientsService.CreatePatients(PData)
-      .then((res) => {
-        setsms(res.data);
-      })
+    .then((res) => {
+      Swal.fire({
+        title: "Patient Added!",
+        text: res.data || "New patient has been successfully added.",
+        icon: "success",
+       
+        showConfirmButton: false,
+        timer: 2000,
+        position: "center"
+      });
+    
+      // Optional: Reset form after submission
+      SetPatients({
+        name: "",
+        dob: "",
+        gender: "",
+        maritalstatus: "",
+        email: "",
+        mobailenumber: "",
+        wpnumber: "",
+        address: ""
+      });
+    
+      setsms(""); // clear old messages if needed
+    })
+    
       .catch((res) => {
         setsms(res.data || "Error adding patient");
       });

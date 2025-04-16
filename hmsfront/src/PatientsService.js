@@ -1,5 +1,5 @@
 import axios from "axios";
-let ViewPatient="";
+
 let addp="http://localhost:8080/hms/createPatients";
 let showp="http://localhost:8080/hms/getAllPatients";
 let searchpatients="http://localhost:8080/hms/searchpatientsByName";

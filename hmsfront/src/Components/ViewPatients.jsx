@@ -55,7 +55,7 @@ const [currentPatient, setCurrentPatient] = useState(null);
                   text: "Patient has been deleted.",
                   icon: "success"
                 });
-                fetchAllPatients(); // refresh after deletion
+                fetchAllPatients(); 
               })
               .catch(() => {
                 Swal.fire({
@@ -75,9 +75,22 @@ const [currentPatient, setCurrentPatient] = useState(null);
 
 
   const handleUpdateSave = (updatedPatient) => {
+
     PatientsService.updatePatient(updatedPatient.patientId, updatedPatient)
       .then(() => {
-        alert("Patient updated successfully!");
+        Swal.fire({
+          title: "Updated!",
+          text: "Patient has been updated successfully.",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+          position: "center",
+          didOpen: (popup) => {
+            // Optional draggable effect
+            popup.setAttribute("draggable", "true");
+          }
+        });
+        
         fetchAllPatients();
         setEditMode(false);
         setCurrentPatient(null);
