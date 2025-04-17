@@ -1,15 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaCalendarAlt, FaFileInvoice, FaUserEdit, FaNotesMedical, FaPills, FaSignOutAlt, FaUserCircle, FaCommentDots } from "react-icons/fa";
 
 const PatientDashboard = () => {
+
+  const [patientName, setPatientName] = useState("patients");
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        console.log("Stored user:", user);
+        if (user) {
+          setPatientName(user.Name || user.name || user.username || "Patient");
+        }
+        
+        
+      } catch (e) {
+        console.error("Invalid user data in localStorage", e);
+      }
+    }
+  }, []);
+  
+
+
   return (
     <div className="d-flex min-vh-100">
       {/* Sidebar */}
       <div className="bg-info text-white p-4" style={{ width: "250px" }}>
         <div className="text-center mb-4">
           <FaUserCircle size={60} />
-          <h5 className="mt-2">Welcome, Patient</h5>
+          <h5 className="mt-2">Welcome, {patientName}</h5>
         </div>
         <ul className="nav flex-column gap-3">
           <li className="nav-item">

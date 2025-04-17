@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-
 import DoctorsService from "../DoctorsService";
 import PatientsService from "../PatientsService";
+import AppointmentService from "../AppointmentService";
 
 const BookAppointment = () => {
   const [doctors, setDoctors] = useState([]);
@@ -19,10 +18,23 @@ const BookAppointment = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    DoctorsService.getDoctors().then((res) => setDoctors(res.data));
-    PatientsService.getPatients().then((res) => setPatients(res.data));
+    DoctorsService.getDoctors()
+      .then((res) => {
+        setDoctors(res.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching doctors:", err);
+      });
+  
+    PatientsService.getPatients()
+      .then((res) => {
+        setPatients(res.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching patients:", err);
+      });
   }, []);
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -31,7 +43,7 @@ const BookAppointment = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post("/api/appointments", formData)
+    AppointmentService.CreateAppointment(formData)
       .then(() => {
         Swal.fire("Success", "Appointment booked successfully!", "success");
         setFormData({
@@ -39,7 +51,7 @@ const BookAppointment = () => {
           doctor_id: "",
           Appointment_date: "",
           time: "",
-          
+          Status: "Pending", 
         });
       })
       .catch(() => Swal.fire("Error", "Could not book appointment", "error"));
@@ -51,17 +63,24 @@ const BookAppointment = () => {
         <h3 className="text-primary text-center mb-4">🗓️ Book Appointment</h3>
         <form onSubmit={handleSubmit}>
           <div className="row g-3">
-            <div className="col-md-6">
-              <label className="form-label">Patient Name</label>
-              <input
-                type="text"
-                className="form-control"
-                name="patient_id"
-                value={formData.patient_id}
-                onChange={handleChange}
-                required
-              />
-            </div>
+          <div className="col-md-6">
+  <label className="form-label">Patient</label>
+  <select
+    className="form-select"
+    name="patient_id"
+    value={formData.patient_id}
+    onChange={handleChange}
+    required
+  >
+    <option value="">Select Patient</option>
+    {patients.map((pat) => (
+      <option key={pat.patient_id} value={pat.patient_id}>
+        {pat.name} 
+      </option>
+    ))}
+  </select>
+</div>
+
 
             <div className="col-md-6">
               <label className="form-label">Doctor</label>
@@ -74,9 +93,10 @@ const BookAppointment = () => {
               >
                 <option value="">Select Doctor</option>
                 {doctors.map((doc) => (
-                  <option key={doc.doctor_id} value={doc.doctor_id}>
-                     {doc.name} - {doc.specialization}
-                  </option>
+                  <option key={doc.id} value={doc.id}>
+                  {doc.name} - {doc.specialization}
+                </option>
+                
                 ))}
               </select>
             </div>
@@ -107,14 +127,14 @@ const BookAppointment = () => {
 
             
             <div className="col-12 text-center">
-              <button type="submit" className="btn btn-success px-4 mt-2">
+              <button type="submit" className="btn btn-success px-4 mt-2" >
                 Book Now
               </button>
             </div>
 
 
             <div className="col-12 text-center">
-            <button type="button" className="btn btn-danger px-4 mt-2 me-2  text-black" onClick={() => navigate("/user")}>Back</button>
+            <button type="button" className="btn btn-danger px-4 mt-2 me-2  text-white" onClick={() => navigate("/user")}>Back</button>
 
             </div>
           </div>

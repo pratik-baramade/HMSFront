@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
  // Custom CSS for styling
 
-const Login = () => {
+const ReceptionistLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
@@ -55,7 +55,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-card shadow">
-        <h2 className="text-center mb-4 text-primary">Hospital Login</h2>
+        <h2 className="text-center mb-4 text-primary">Receptionist Login</h2>
         <input
           type="text"
           placeholder="👤 Username"
@@ -88,4 +88,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ReceptionistLogin;
