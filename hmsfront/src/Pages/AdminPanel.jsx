@@ -23,11 +23,11 @@ const AdminPanel = () => {
       try {
         const patientRes = await PatientsService.getPatients();
         const doctorRes = await DoctorsService.getDoctors();
-        const RecepatinoistRes=await ReceptionisService.getReceptionis();
+        const receptionistRes = await ReceptionisService.getReceptionis();
         setCounts({
           patients: patientRes.data.length,
           doctors: doctorRes.data.length,
-          receptionists: RecepatinoistRes.data.length,
+          receptionists: receptionistRes.data.length,
         });
       } catch (error) {
         console.error("Error fetching counts:", error);

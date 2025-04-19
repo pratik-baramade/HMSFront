@@ -14,8 +14,13 @@ import PatientsLogin from './LoginPages/PatientsLogin';
 import DoctorLogin from './LoginPages/DoctorLogin';
 import ReceptionistLogin from './LoginPages/ReceptionistLogin';
 import EditPatientsProfile from './Components/EditPatientProfile';
-import ViewBill from './Components/ViewBill';
-
+import ViewBill from './Components/ViewBill'
+import ViewAppointments from './Components/ViewAppointments';
+import ViewSchedule from './Components/ViewSchedule';
+import EditDoctor from './Components/EditDOctor';
+import ManagePatients from './Components/ManagePatients';
+import WritePrescription from './Components/WritePrescription';
+import ViewPharmacy from './Components/ViewPharmacy';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -25,7 +30,7 @@ function App() {
       <BrowserRouter>
         {/* Navbar */}
         <div className="Wrapper">
-          <div className="row align-items-center bg-info shadow-sm px-3 py-2">
+          <div className="row align-items-center bg-info shadow-sm px-3 py-2 ">
             <div className="col-md-2 col-3 d-flex align-items-center">
               <img src={lifelineLogo} alt="Lifeline Logo" className="img-fluid" width={60} />
             </div>
@@ -68,6 +73,14 @@ function App() {
   <Route path='/ReceptionistLogin' element={<ReceptionistLogin/>}/>
   <Route path='/admin' element={<AdminPanel />} />
   <Route path='/viewDoctors' element={<DoctorDashboard />} />
+  <Route path="/doctor/appointments" element={<ViewAppointments />} />
+  <Route path="/doctor/schedule" element={<ViewSchedule/>}/>
+  <Route path="/doctor/profile" element={<EditDoctor/>}/>
+  {/* <Route path="/doctor/patients" element={<ViewPatients />} /> */}
+
+  <Route path="/doctor/patients" element={<ManagePatients />} />
+  <Route path="doctor/prescriptions" element={<WritePrescription />} />
+ 
   <Route path='/user' element={<PatientDashboard />} />
   <Route path="/user/profile" element={<EditPatientsProfile/>}/>
   <Route path='/user/book-appointment' element={<BookAppointment />} />

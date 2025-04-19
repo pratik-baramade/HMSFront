@@ -21,7 +21,7 @@ class PatientsService{
     }
 
     deletepatients(id) {
-        return axios.delete(`${deletepatients}/${id}`); 
+        return axios.get(`${deletepatients}/${id}`); 
       }
 
     updatePatient(id,updateData)
