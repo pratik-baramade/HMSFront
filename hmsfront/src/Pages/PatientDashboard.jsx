@@ -28,7 +28,7 @@ const PatientDashboard = () => {
   return (
     <div className="d-flex min-vh-100">
       {/* Sidebar */}
-      <div className="bg-info text-white p-4" style={{ width: "250px" }}>
+      <div className="bg-primary text-white p-4" style={{ width: "250px" }}>
         <div className="text-center mb-4">
           <FaUserCircle size={60} />
           <h5 className="mt-2">Welcome, {patientName}</h5>
@@ -74,7 +74,7 @@ const PatientDashboard = () => {
 
       {/* Main Content */}
       <div className="flex-grow-1 p-4">
-        <h2 className="text-primary mb-4">📋 Dashboard Overview</h2>
+        <h2 className="text-primary mb-4">Patient Dashboard </h2>
 
         <div className="row g-4">
           <div className="col-md-4">

@@ -1,24 +1,20 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import lifelineLogo from './assets/lifeline.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import HomePage from './Components/HomePage';
 import VideoPlayer from './Components/VideoPlayer';
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
-import AddPatient from './Components/AddPatient';
-import ViewPatients from './Components/ViewPatients';
 import AdminPanel from './Pages/AdminPanel';
 import PatientDashboard from './Pages/PatientDashboard';
 import BookAppointment from './Components/BookAppointment';
 import DoctorDashboard from './Pages/DoctorDashboard';
 import AboutUs from './Pages/AboutUs';
-
 import Login from './Components/Login';
 import PatientsLogin from './LoginPages/PatientsLogin';
 import DoctorLogin from './LoginPages/DoctorLogin';
 import ReceptionistLogin from './LoginPages/ReceptionistLogin';
+import EditPatientsProfile from './Components/EditPatientProfile';
+import ViewBill from './Components/ViewBill';
 
 
 function App() {
@@ -64,7 +60,7 @@ function App() {
         {/* Main Content */}
 
         <div className="slide container-fluid px-4 " style={{ minHeight: "calc(100vh - 80px)",  paddingTop:'50px'}}>
-        <Routes>
+ <Routes>
   <Route path='/' element={<VideoPlayer />} />
   <Route path="/login" element={<Login />} />
   <Route path='/patientslogin' element={<PatientsLogin/>}/>
@@ -73,10 +69,14 @@ function App() {
   <Route path='/admin' element={<AdminPanel />} />
   <Route path='/viewDoctors' element={<DoctorDashboard />} />
   <Route path='/user' element={<PatientDashboard />} />
+  <Route path="/user/profile" element={<EditPatientsProfile/>}/>
   <Route path='/user/book-appointment' element={<BookAppointment />} />
+  <Route path='/user/bills' element={<ViewBill/>}/>
+  <Route path="/logout" element={<PatientsLogin/>}/>
   <Route path='/receptionist/dashboard' element={<h1 className="text-center text-secondary">👤 Receptionist Panel Coming Soon</h1>} />
   <Route path='/doctor/dashboard' element={<DoctorDashboard />} />
   <Route path='/patient/dashboard' element={<PatientDashboard />} />
+  <Route path="/patientdashboard" element={<PatientDashboard />} />
   <Route path='/About' element={<AboutUs/>} />
 </Routes>
 

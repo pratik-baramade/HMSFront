@@ -4,6 +4,7 @@ let showp="http://localhost:8080/hms/getAllPatients";
 let searchpatients="http://localhost:8080/hms/searchpatientsByName";
 let deletepatients="http://localhost:8080/hms/deleteById";
 let updatepatients="http://localhost:8080/hms/update";
+
 class PatientsService{
     getPatients(){
         return axios.get(showp);

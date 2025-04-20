@@ -11,15 +11,17 @@ const BookAppointment = () => {
   const [formData, setFormData] = useState({
     patient_id: "",
     doctor_id: "",
-    Appointment_date: "",
+    appointment_date: "",
     time: "",
-    Status: "Pending",
+    status: "Pending",
   });
   const navigate = useNavigate();
 
   useEffect(() => {
     DoctorsService.getDoctors()
       .then((res) => {
+        console.log("doctor data:",res.data);
+        
         setDoctors(res.data);
       })
       .catch((err) => {
@@ -28,6 +30,7 @@ const BookAppointment = () => {
   
     PatientsService.getPatients()
       .then((res) => {
+        console.log("patients data:",res.data);
         setPatients(res.data);
       })
       .catch((err) => {
@@ -42,21 +45,30 @@ const BookAppointment = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    AppointmentService.CreateAppointment(formData)
+  
+    const payload = {
+      ...formData,
+      patient_id: parseInt(formData.patient_id),
+      doctor_id: parseInt(formData.doctor_id),
+    };
+  
+    AppointmentService.CreateAppointment(payload)
       .then(() => {
         Swal.fire("Success", "Appointment booked successfully!", "success");
         setFormData({
           patient_id: "",
           doctor_id: "",
-          Appointment_date: "",
+          appointment_date: "",
           time: "",
-          Status: "Pending", 
+          status: "Pending",
         });
       })
-      .catch(() => Swal.fire("Error", "Could not book appointment", "error"));
+      .catch((error) => {
+        console.error("Error booking appointment:", error);
+        Swal.fire("Error", "Could not book appointment", "error");
+      });
   };
-
+  
   return (
     <div className="container mt-5">
       <div className="card shadow p-4">
@@ -66,39 +78,44 @@ const BookAppointment = () => {
           <div className="col-md-6">
   <label className="form-label">Patient</label>
   <select
-    className="form-select"
-    name="patient_id"
-    value={formData.patient_id}
-    onChange={handleChange}
-    required
-  >
-    <option value="">Select Patient</option>
-    {patients.map((pat) => (
-      <option key={pat.patient_id} value={pat.patient_id}>
-        {pat.name} 
-      </option>
-    ))}
-  </select>
+  className="form-select"
+  name="patient_id"
+  value={formData.patient_id}
+  onChange={handleChange}
+  required
+>
+  <option value="">Select Patient</option>
+  {patients.map((pat) => (
+   <option key={pat.patientId} value={pat.patientId}>
+   {pat.patientId}-{pat.name} 
+ </option>
+ 
+  ))}
+</select>
+
+
 </div>
 
 
             <div className="col-md-6">
               <label className="form-label">Doctor</label>
               <select
-                className="form-select"
+               className="form-select"
                 name="doctor_id"
-                value={formData.doctor_id}
-                onChange={handleChange}
-                required
+              value={formData.doctor_id}
+              onChange={handleChange}
+              required
               >
-                <option value="">Select Doctor</option>
-                {doctors.map((doc) => (
-                  <option key={doc.id} value={doc.id}>
-                  {doc.name} - {doc.specialization}
-                </option>
-                
-                ))}
-              </select>
+  <option value="">Select Doctor</option>
+  {doctors.map((doc) => (
+    <option key={doc.doctorid} value={doc.doctorid}>
+   {doc.doctorid}- {doc.name} 
+  </option>
+  
+  ))}
+</select>
+
+
             </div>
 
             <div className="col-md-6">
@@ -106,8 +123,8 @@ const BookAppointment = () => {
               <input
                 type="date"
                 className="form-control"
-                name="Appointment_date"
-                value={formData.Appointment_date}
+                name="appointment_date"
+                value={formData.appointment_date}
                 onChange={handleChange}
                 required
               />
