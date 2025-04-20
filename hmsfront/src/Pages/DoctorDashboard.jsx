@@ -1,15 +1,27 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FaUserMd, FaCalendarCheck, FaUserInjured, FaPrescriptionBottleAlt, FaClock, FaUserEdit, FaSignOutAlt } from "react-icons/fa";
+import LogoutButton from "../LoginPages/LogoutButton";
+import {
+  FaUserMd,
+  FaCalendarCheck,
+  FaUserInjured,
+  FaPrescriptionBottleAlt,
+  FaClock,
+  FaUserEdit,
+  FaSignOutAlt,
+} from "react-icons/fa";
 
 const DoctorDashboard = () => {
+  const doctor = JSON.parse(localStorage.getItem("user"));
+  const doctorName = doctor?.name || "Doctor";
+
   return (
     <div className="d-flex min-vh-100">
       {/* Sidebar */}
       <div className="bg-primary text-white p-4" style={{ width: "250px" }}>
         <div className="text-center mb-4">
           <FaUserMd size={60} />
-          <h5 className="mt-2">Welcome, Doctor</h5>
+          <h5 className="mt-2">Welcome, {doctorName}</h5>
         </div>
         <ul className="nav flex-column gap-3">
           <li className="nav-item">
@@ -38,9 +50,7 @@ const DoctorDashboard = () => {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/logout" className="nav-link text-white">
-              <FaSignOutAlt className="me-2" /> Logout
-            </NavLink>
+             <LogoutButton redirectTo="/doctorlogin" />
           </li>
         </ul>
       </div>
