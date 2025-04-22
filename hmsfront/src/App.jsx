@@ -29,8 +29,8 @@ function App() {
     <>
       <BrowserRouter>
         {/* Navbar */}
-        <div className="Wrapper">
-          <div className="row align-items-center bg-info shadow-sm px-3 py-2 ">
+        <div className="Wrapper ">
+          <div className="row align-items-center bg-info shadow-sm px-3 py-2 position-fixed w-100  ">
             <div className="col-md-2 col-3 d-flex align-items-center">
               <img src={lifelineLogo} alt="Lifeline Logo" className="img-fluid" width={60} />
             </div>

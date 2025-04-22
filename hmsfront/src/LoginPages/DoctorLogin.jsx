@@ -68,7 +68,7 @@ const DoctorLogin = () => {
           placeholder="🔒 Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="form-control mb-3"
+          className="form-control mb-3 "
         />
         <select
           value={role}

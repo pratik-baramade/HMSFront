@@ -1,6 +1,6 @@
 function VideoPlayer() {
     return (
-      <div className="video-container  text-center mt-4">
+      <div className="video-container  text-center mt-2">
        
         <video width="80%" autoPlay loop muted>
           <source src="\src\assets\hospital.mp4" type="video/mp4" />
