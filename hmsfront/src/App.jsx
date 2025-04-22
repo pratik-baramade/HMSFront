@@ -21,6 +21,8 @@ import EditDoctor from './Components/EditDOctor';
 import ManagePatients from './Components/ManagePatients';
 import WritePrescription from './Components/WritePrescription';
 import ViewPharmacy from './Components/ViewPharmacy';
+import PatientPrescriptions from './Components/PatientPrescriptions';
+import MedicalHistory from './Components/MedicalHistory';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -85,7 +87,11 @@ function App() {
   <Route path="/user/profile" element={<EditPatientsProfile/>}/>
   <Route path='/user/book-appointment' element={<BookAppointment />} />
   <Route path='/user/bills' element={<ViewBill/>}/>
+  <Route path='/user/prescriptions' element={<PatientPrescriptions/>}/>
+  <Route path='user/dashboard' element={<PatientDashboard/>}/>
+  <Route path='/user/history' element={<MedicalHistory/>}/>
   <Route path="/logout" element={<PatientsLogin/>}/>
+
   <Route path='/receptionist/dashboard' element={<h1 className="text-center text-secondary">👤 Receptionist Panel Coming Soon</h1>} />
   <Route path='/doctor/dashboard' element={<DoctorDashboard />} />
   <Route path='/patient/dashboard' element={<PatientDashboard />} />

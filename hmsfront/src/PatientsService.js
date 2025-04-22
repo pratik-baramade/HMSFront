@@ -10,8 +10,7 @@ class PatientsService{
         return axios.get(showp);
     }
     CreatePatients(Patient){
-        console.log(addp);
-        return axios.post(addp,Patient);
+      return axios.post(addp,Patient);
 
     }
 

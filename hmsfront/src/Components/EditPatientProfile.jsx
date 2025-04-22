@@ -37,12 +37,26 @@ const EditPatientsProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Construct cleaned object
+    const updatedData = {
+      patientId: formData.patient_id, // rename key for backend
+      name: formData.Name,
+      gender: formData.gender,
+      dob: formData.Dob,
+      maritalstatus: formData.maritalstatus || formData.maritalstatus, // fallback
+      address: formData.addresscd || "", // avoid sending null
+      email: formData.email,
+      wpnumber: formData.wpnumber,
+      mobailenumber: formData.mobailenumber,
+    };
+  
     try {
-      // use PatientsService here instead of axios
-      await PatientsService.updatePatient(formData.patient_id, formData);
-
-      localStorage.setItem("user", JSON.stringify(formData));
-
+      console.log("Sending updatedData:", updatedData);
+      await PatientsService.updatePatient(updatedData.patientId, updatedData);
+  
+      localStorage.setItem("user", JSON.stringify(updatedData));
+  
       Swal.fire({
         title: "Updated!",
         text: "Profile updated successfully.",
@@ -61,7 +75,7 @@ const EditPatientsProfile = () => {
       });
     }
   };
-
+  
   const handleCancel = () => {
     Swal.fire({
       title: "Cancel Editing?",
@@ -113,7 +127,7 @@ const EditPatientsProfile = () => {
               type="date"
               className="form-control"
               name="Dob"
-              value={formData.Dob || ""}
+              value={formData.Dob ? formData.Dob.substring(0, 10) : ""}
               onChange={handleChange}
             />
           </div>
@@ -133,9 +147,9 @@ const EditPatientsProfile = () => {
             <input
               type="text"
               className="form-control"
-              name="Maritalstaus"
+              name="maritalstatus"
               placeholder="Marital Status"
-              value={formData.Maritalstaus || ""}
+              value={formData.maritalstatus || ""}
               onChange={handleChange}
             />
           </div>
@@ -179,7 +193,7 @@ const EditPatientsProfile = () => {
               name="address"
               rows="2"
               placeholder="Address"
-              value={formData.Address || ""}
+              value={formData.address || ""}
               onChange={handleChange}
             />
           </div>
