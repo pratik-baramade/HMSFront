@@ -59,11 +59,7 @@ const PatientDashboard = () => {
               <FaUserEdit className="me-2" /> Edit Profile
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink to="/user/feedback" className="nav-link text-white">
-              <FaCommentDots className="me-2" /> Feedback
-            </NavLink>
-          </li>
+          
           <li className="nav-item">
             <NavLink to="/logout" className="nav-link text-white">
               <FaSignOutAlt className="me-2" /> Logout
