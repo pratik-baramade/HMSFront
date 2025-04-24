@@ -47,11 +47,12 @@
   top: 0;
   left: 0;
   height: 100%;
+  z-index: -1;
   width: 100%;
   background: url('./assets/login.jpg') no-repeat center center;
   background-size: cover;
   filter: blur(8px); /* <-- adjust blur level as needed */
-  z-index: -1;
+  
 }
 
 /* 🔵 Login Card */
@@ -67,13 +68,15 @@
 }
 /* Fullscreen video styling */
 .video-container {
-  position: fixed;       /* Sticks to the viewport */
-  width: 100vw;          /* Full width of the screen */
-  z-index: 999;          /* Brings it to front if needed */
+  position: fixed;       
+  width: 100vw;         
+  z-index: -2;          
   overflow: hidden;
+  
 }
 
 .video-container video {
   width: 100%;
+  z-index: 0;
   object-fit: cover;     /* Ensures the video fills the area nicely */
 }

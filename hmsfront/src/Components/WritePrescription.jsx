@@ -1,207 +1,139 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import Swal from "sweetalert2";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import PharmacyService from "../Pages/PharmacyService";
+import CheckupService from "../CheckupService";
+import BillingService from "../BillingService";
+import Swal from "sweetalert2";
 
 const WritePrescription = () => {
   const location = useLocation();
-  const { patient } = location.state || {};
+  const navigate = useNavigate();
+  const patient = location.state?.patient;
 
-  const [problem, setProblem] = useState("");
-  const [medicineName, setMedicineName] = useState("");
-  const [medicinePrice, setMedicinePrice] = useState("");
-  const [bloodPressure, setBloodPressure] = useState("");
-  const [sugarLevel, setSugarLevel] = useState("");
-  const [bill, setBill] = useState(null);
-  const [allMedicines, setAllMedicines] = useState([]);
-  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const [medicines, setMedicines] = useState([{ name: "", price: "", isCustom: false }]);
+  const [pharmacyList, setPharmacyList] = useState([]);
+  const [symptoms, setSymptoms] = useState("");
+  const [discount, setDiscount] = useState(0);
 
   useEffect(() => {
     PharmacyService.getPharmacy()
-      .then((res) => {
-        setAllMedicines(res.data);
-      })
-      .catch((err) => console.error("Error fetching medicines:", err));
+      .then((res) => setPharmacyList(res.data))
+      .catch((err) => console.error("Pharmacy fetch error:", err));
   }, []);
 
-  const handleMedicineNameChange = (e) => {
-    const input = e.target.value;
-    setMedicineName(input);
-
-    const filtered = allMedicines.filter((med) =>
-      med.name.toLowerCase().includes(input.toLowerCase())
-    );
-    setFilteredSuggestions(filtered);
-
-    const matchedMedicine = allMedicines.find(
-      (med) => med.name.toLowerCase() === input.toLowerCase()
-    );
-
-    if (matchedMedicine) {
-      setMedicinePrice(matchedMedicine.price);
+  const handleMedicineChange = (index, value) => {
+    const updated = [...medicines];
+    const selected = pharmacyList.find((m) => m.name === value);
+    if (selected) {
+      updated[index] = { name: selected.name, price: selected.price, isCustom: false };
     } else {
-      setMedicinePrice("");
+      updated[index] = { name: value, price: "", isCustom: true };
     }
+    setMedicines(updated);
   };
 
-  const handleSelectSuggestion = (name, price) => {
-    setMedicineName(name);
-    setMedicinePrice(price);
-    setFilteredSuggestions([]);
+  const handlePriceChange = (index, price) => {
+    const updated = [...medicines];
+    updated[index].price = price;
+    setMedicines(updated);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const addMedicineField = () => {
+    setMedicines([...medicines, { name: "", price: "", isCustom: false }]);
+  };
 
-    const prescription = {
-      patientId: patient.patientId,
-      patientName: patient.name,
-      mobile: patient.mobailenumber,
-      problem,
-      bloodPressure,
-      sugarLevel,
-      medicineName,
-      medicinePrice,
-      date: new Date().toLocaleDateString()
+  const total = medicines.reduce((sum, med) => sum + (parseFloat(med.price) || 0), 0);
+  const netTotal = total - (total * discount) / 100;
+
+  const handleSubmit = () => {
+    if (!patient || !patient.patientId) {
+      Swal.fire("Error", "Invalid patient data.", "error");
+      return;
+    }
+
+    const payload = {
+      patient_id: patient.patientId,
+      symptoms,
+      medicines: medicines.map((m) => `${m.name}:${m.price}`).join(", "),
+      totalPrice: total,
+      discount,
+      netTotal,
     };
 
-    console.log("Prescription submitted:", prescription);
-
-    setBill({
-      ...prescription,
-      totalAmount: parseFloat(medicinePrice)
-    });
-
-    Swal.fire({
-      title: "Success!",
-      text: "Prescription and bill saved successfully.",
-      icon: "success",
-      confirmButtonText: "OK"
-    });
-
-    setProblem("");
-    setBloodPressure("");
-    setSugarLevel("");
-    setMedicineName("");
-    setMedicinePrice("");
+    CheckupService.CreatePrescription(payload)
+      .then(() => {
+        Swal.fire("Success", "Prescription submitted successfully!", "success");
+        navigate("/doctor/appointments");
+      })
+      .catch((err) => {
+        console.error("Prescription error:", err);
+        Swal.fire("Error", "Failed to submit prescription.", "error");
+      });
   };
 
-  if (!patient) {
-    return <p className="text-center mt-4 text-danger">No patient selected.</p>;
-  }
-
   return (
-    <div className="container mt-5">
-      <div className="card p-4 shadow">
-        <h3 className="text-center mb-4 text-info">Write Prescription</h3>
+    <div className="container mt-4">
+      <h3 className="text-success mb-3">Write Prescription for {patient?.name}</h3>
 
-        <form onSubmit={handleSubmit}>
-          <div className="row mb-3">
-            <div className="col-md-6">
-              <label>Patient Name</label>
-              <input type="text" className="form-control" value={patient.name} readOnly />
-            </div>
-            <div className="col-md-6">
-              <label>Mobile</label>
-              <input type="text" className="form-control" value={patient.mobailenumber} readOnly />
-            </div>
-          </div>
-
-          <div className="mb-3">
-            <label>Problem Description</label>
-            <textarea
-              className="form-control"
-              rows="3"
-              value={problem}
-              onChange={(e) => setProblem(e.target.value)}
-              placeholder="e.g. Fever, Headache, etc."
-              required
-            />
-          </div>
-
-          <div className="row mb-3">
-            <div className="col-md-6">
-              <label>Blood Pressure (mmHg)</label>
-              <input
-                type="text"
-                className="form-control"
-                value={bloodPressure}
-                onChange={(e) => setBloodPressure(e.target.value)}
-                placeholder="e.g. 120/80"
-              />
-            </div>
-            <div className="col-md-6">
-              <label>Sugar Level (mg/dL)</label>
-              <input
-                type="text"
-                className="form-control"
-                value={sugarLevel}
-                onChange={(e) => setSugarLevel(e.target.value)}
-                placeholder="e.g. 90"
-              />
-            </div>
-          </div>
-
-          <div className="row mb-3 position-relative">
-            <div className="col-md-6">
-              <label>Medicine Name</label>
-              <input
-                type="text"
-                className="form-control"
-                value={medicineName}
-                onChange={handleMedicineNameChange}
-                placeholder="e.g. Paracetamol"
-                required
-              />
-              {filteredSuggestions.length > 0 && (
-                <ul className="list-group position-absolute w-100 z-index-3">
-                  {filteredSuggestions.map((med, index) => (
-                    <li
-                      key={index}
-                      className="list-group-item list-group-item-action"
-                      onClick={() => handleSelectSuggestion(med.name, med.price)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {med.name} - ₹{med.price}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            <div className="col-md-6">
-              <label>Medicine Price (₹)</label>
-              <input
-                type="number"
-                className="form-control"
-                value={medicinePrice}
-                onChange={(e) => setMedicinePrice(e.target.value)}
-                placeholder="e.g. 50"
-                required
-              />
-            </div>
-          </div>
-
-          <button type="submit" className="btn btn-success w-100 mt-2">
-            Save Prescription & Generate Bill
-          </button>
-        </form>
+      <div className="mb-3">
+        <label>Symptoms:</label>
+        <textarea
+          className="form-control"
+          rows="2"
+          value={symptoms}
+          onChange={(e) => setSymptoms(e.target.value)}
+        ></textarea>
       </div>
 
-      {bill && (
-        <div className="card mt-4 p-4 border-success shadow-sm">
-          <h4 className="text-success text-center mb-3">Prescription Bill</h4>
-          <p><strong>Date:</strong> {bill.date}</p>
-          <p><strong>Patient:</strong> {bill.patientName}</p>
-          <p><strong>Mobile:</strong> {bill.mobile}</p>
-          <p><strong>Problem:</strong> {bill.problem}</p>
-          <p><strong>Blood Pressure:</strong> {bill.bloodPressure || "Not Recorded"}</p>
-          <p><strong>Sugar Level:</strong> {bill.sugarLevel || "Not Recorded"}</p>
-          <p><strong>Medicine:</strong> {bill.medicineName}</p>
-          <p><strong>Price:</strong> ₹{bill.medicinePrice}</p>
-          <hr />
-          <h5 className="text-end">Total Amount: ₹{bill.totalAmount}</h5>
+      {medicines.map((med, index) => (
+        <div className="row mb-2" key={index}>
+          <div className="col-md-5">
+            <input
+              type="text"
+              list="pharmacy-names"
+              className="form-control"
+              placeholder="Medicine name"
+              value={med.name}
+              onChange={(e) => handleMedicineChange(index, e.target.value)}
+            />
+            <datalist id="pharmacy-names">
+              {pharmacyList.map((m) => (
+                <option key={m.id} value={m.name} />
+              ))}
+            </datalist>
+          </div>
+          <div className="col-md-4">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Price"
+              value={med.price}
+              onChange={(e) => handlePriceChange(index, e.target.value)}
+              disabled={!med.isCustom && pharmacyList.some(p => p.name === med.name)}
+            />
+          </div>
         </div>
-      )}
+      ))}
+
+      <button className="btn btn-secondary btn-sm mb-3" onClick={addMedicineField}>
+        + Add Medicine
+      </button>
+
+      <div className="mb-3">
+        <label>Discount (%):</label>
+        <input
+          type="number"
+          className="form-control"
+          value={discount}
+          onChange={(e) => setDiscount(e.target.value)}
+        />
+      </div>
+
+      <h5>Total: ₹{total.toFixed(2)} | Net Total: ₹{netTotal.toFixed(2)}</h5>
+
+      <button className="btn btn-success mt-2" onClick={handleSubmit}>
+        Submit Prescription
+      </button>
     </div>
   );
 };

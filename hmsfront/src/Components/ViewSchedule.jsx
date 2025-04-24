@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import AppointmentService from "../AppointmentService";
 import { FaCalendarAlt, FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
+// Helper to get ISO date format (yyyy-mm-dd)
+const getISODate = (date) => new Date(date).toISOString().split("T")[0];
+
 const ViewSchedule = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch doctor appointments when the component mounts
   useEffect(() => {
     const doctor = JSON.parse(localStorage.getItem("user"));
     const doctorId = doctor?.doctor_id;
@@ -16,7 +18,6 @@ const ViewSchedule = () => {
       return;
     }
 
-    // Fetch appointments from the AppointmentService
     AppointmentService.getAppointment()
       .then((response) => {
         const doctorAppointments = response.data.filter(
@@ -30,6 +31,20 @@ const ViewSchedule = () => {
       });
   }, []);
 
+  // ✅ Group appointments by date
+  const groupByDate = (data) => {
+    const grouped = {};
+    data.forEach((appt) => {
+      const dateKey = getISODate(appt.appointment_date);
+      if (!grouped[dateKey]) grouped[dateKey] = [];
+      grouped[dateKey].push(appt);
+    });
+    return grouped;
+  };
+
+  const groupedAppointments = groupByDate(appointments);
+  const sortedDates = Object.keys(groupedAppointments).sort((a, b) => new Date(b) - new Date(a)); // latest first
+
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4 text-primary">My Schedule</h2>
@@ -41,47 +56,47 @@ const ViewSchedule = () => {
           ❌ You don’t have any appointments scheduled.
         </p>
       ) : (
-        <div className="schedule">
-          <h4 className="text-center text-info mb-4">Upcoming Appointments</h4>
-          <div className="row">
-            {appointments.map((appointment) => (
-              <div className="col-md-4 mb-4" key={appointment.appointment_id}>
-                <div className="card shadow-lg rounded-lg border-primary hover-card">
-                  <div className="card-body">
-                    <h5 className="card-title text-primary">
-                      Appointment ID: <strong>{appointment.appointment_id}</strong>
-                    </h5>
-
-                    {/* Patient Info */}
-                    <p className="card-text">
-                      <strong><FaCalendarAlt /> Patient ID:</strong> {appointment.patient_id}
-                    </p>
-                    <p className="card-text">
-                      <strong><FaClock /> Time:</strong> {appointment.time}
-                    </p>
-                    <p className="card-text">
-                      <strong>Date:</strong> {appointment.appointment_date}
-                    </p>
-
-                    {/* Status: With icons */}
-                    <p className="card-text">
-                      <strong>Status:</strong>{" "}
-                      {appointment.status === "Completed" ? (
-                        <span className="text-success">
-                          <FaCheckCircle /> Completed
-                        </span>
-                      ) : (
-                        <span className="text-danger">
-                          <FaTimesCircle /> Pending
-                        </span>
-                      )}
-                    </p>
+        sortedDates.map((date) => (
+          <div key={date} className="mb-5">
+            <h4 className="text-center text-info mb-3">
+              📅 {date === getISODate(new Date()) ? "Today" : date}
+            </h4>
+            <div className="row">
+              {groupedAppointments[date].map((appointment) => (
+                <div className="col-md-4 mb-4" key={appointment.appointment_id}>
+                  <div className="card shadow-sm border-primary">
+                    <div className="card-body">
+                      <h5 className="card-title text-primary">
+                        Appointment ID: <strong>{appointment.appointment_id}</strong>
+                      </h5>
+                      <p className="card-text">
+                        <strong><FaCalendarAlt /> Patient ID:</strong> {appointment.patient_id}
+                      </p>
+                      <p className="card-text">
+                        <strong><FaClock /> Time:</strong> {appointment.time}
+                      </p>
+                      <p className="card-text">
+                        <strong>Date:</strong> {getISODate(appointment.appointment_date)}
+                      </p>
+                      <p className="card-text">
+                        <strong>Status:</strong>{" "}
+                        {appointment.status === "Completed" ? (
+                          <span className="text-success">
+                            <FaCheckCircle /> Completed
+                          </span>
+                        ) : (
+                          <span className="text-danger">
+                            <FaTimesCircle /> Pending
+                          </span>
+                        )}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        ))
       )}
     </div>
   );
