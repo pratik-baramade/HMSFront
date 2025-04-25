@@ -1,5 +1,5 @@
 import React from 'react';
-import heroImg from '../assets/lifeline.png';
+import heroImg from '../assets/Doctors.jpg';
 import { FaHospitalAlt, FaUserMd, FaHeartbeat, FaStar } from "react-icons/fa";
 
 const VideoPlayer = () => {
