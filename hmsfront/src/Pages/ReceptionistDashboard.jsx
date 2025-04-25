@@ -49,6 +49,32 @@ const ReceptionistDashboard = () => {
               <FaFileInvoiceDollar className="me-2" /> View Billing/Prescriptions
             </NavLink>
           </li>
+          <li className="nav-item dropdown">
+  <a
+    className="nav-link dropdown-toggle text-white"
+    href="#"
+    id="testDropdown"
+    role="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    <FaFileInvoiceDollar className="me-2" />
+    Test
+  </a>
+  <ul className="dropdown-menu" aria-labelledby="testDropdown">
+    <li>
+      <NavLink to="/receptionist/view-test" className="dropdown-item">
+        View Tests
+      </NavLink>
+    </li>
+    <li>
+      <NavLink to="/receptionist/add-test" className="dropdown-item">
+        Add Test
+      </NavLink>
+    </li>
+  </ul>
+</li>
+
           <li className="nav-item">
             <LogoutButton redirectTo="/receptionistlogin" />
           </li>

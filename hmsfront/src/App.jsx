@@ -30,6 +30,8 @@ import ViewPatients from './Components/ViewPatients';
 import ViewAppointmentsReceptionist from './Components/ViewAppointmentsReceptionist';
 import Swal from 'sweetalert2';
 import Patientbill from './Components/patientbill';
+import ViewTests from './Components/ViewTests';
+import AddTest from './Components/AddTest';
 
 
 function App() {
@@ -59,7 +61,7 @@ function App() {
     <>
       <BrowserRouter>
         {/* Navbar */}
-        <div className="Wrapper">
+        <div className="Wrapper position-fixed ">
   <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow sticky-top">
     <div className="container-fluid">
       {/* Logo */}
@@ -140,6 +142,8 @@ function App() {
             <Route path='/patient/dashboard' element={<PatientDashboard />} />
             <Route path="/receptionist/view-billing" element={<Patientbill/>}/>
             <Route path='/About' element={<AboutUs />} />
+            <Route path='/receptionist/view-test' element={<ViewTests/>}/>
+            <Route path="/receptionist/add-test" element={<AddTest/>}/>
           </Routes>
         </div>
       </BrowserRouter>
