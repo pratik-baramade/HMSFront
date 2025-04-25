@@ -29,6 +29,7 @@ import AddPatient from './Components/AddPatient';
 import ViewPatients from './Components/ViewPatients';
 import ViewAppointmentsReceptionist from './Components/ViewAppointmentsReceptionist';
 import Swal from 'sweetalert2';
+import Patientbill from './Components/patientbill';
 
 
 function App() {
@@ -129,6 +130,7 @@ function App() {
             <Route path="/receptionist/view-appointments" element={<ViewAppointmentsReceptionist />} />
             <Route path='/doctor/dashboard' element={<DoctorDashboard />} />
             <Route path='/patient/dashboard' element={<PatientDashboard />} />
+            <Route path="/receptionist/view-billing" element={<Patientbill/>}/>
             <Route path='/About' element={<AboutUs />} />
           </Routes>
         </div>
