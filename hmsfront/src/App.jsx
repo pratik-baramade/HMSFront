@@ -60,47 +60,54 @@ function App() {
       <BrowserRouter>
         {/* Navbar */}
         <div className="Wrapper">
-          <div className="row align-items-center bg-info shadow-sm px-3 py-2 position-fixed w-100">
-            <div className="col-md-2 col-3 d-flex align-items-center">
-              <img src={lifelineLogo} alt="Lifeline Logo" className="img-fluid" width={60} />
-            </div>
-            <div className="col-md-10 col-9">
-              <ul className="list-inline d-flex justify-content-center m-0 flex-wrap">
-                <li className="list-inline-item p-2">
-                  <NavLink to="/" className="text-white fw-bold text-decoration-none navlink">🏠 HOME</NavLink>
-                </li>
-                <li className="list-inline-item p-2">
-                  <NavLink to="/admin" className="text-white fw-bold text-decoration-none navlink">🛠️ Admin</NavLink>
-                </li>
-                <li className="nav-item list-inline-item p-2 dropdown">
-                  <a className="text-white fw-bold text-decoration-none navlink dropdown-toggle" role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    🔐 Login
-                  </a>
-                  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><NavLink to="/doctorlogin" className="dropdown-item">🩺 Doctor Login</NavLink></li>
-                    <li><NavLink to="/patientslogin" className="dropdown-item">👤 Patient Login</NavLink></li>
-                    <li><NavLink to="/ReceptionistLogin" className="dropdown-item">💼 Receptionist Login</NavLink></li>
-                  </ul>
-                </li>
+  <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow sticky-top">
+    <div className="container-fluid">
+      {/* Logo */}
+      <NavLink className="navbar-brand d-flex align-items-center" to="/">
+        <img src={lifelineLogo} alt="Lifeline Logo" width="50" height="50" className="d-inline-block align-text-top me-2" />
+        <span className="fw-bold fs-4">Lifeline Hospital</span>
+      </NavLink>
 
-                <li className="list-inline-item p-2">
-                  <NavLink to="/About" className="text-white fw-bold text-decoration-none navlink">ℹ️ About</NavLink>
-                </li>
-                
-                  <li className="list-inline-item p-2">
-                    <a
-                      href="#!"
-                      onClick={handleLogout}
-                      className="text-white fw-bold text-decoration-none navlink"
-                    >
-                      🚪 Logout
-                    </a>
-                  </li>
+      {/* Toggler */}
+      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
+      </button>
 
-              </ul>
-            </div>
-          </div>
-        </div>
+      {/* Navbar Links */}
+      <div className="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li className="nav-item">
+            <NavLink className="nav-link fw-semibold" to="/">🏠 Home</NavLink>
+          </li>
+          
+
+          {/* Login Dropdown with Default Green Background */}
+          <li className="nav-item dropdown border-5" >
+            <a
+              className="nav-link dropdown-toggle btn btn-success fw-semibold text-white"
+              href="#"
+              id="loginDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              🔐 Login
+            </a>
+            <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="loginDropdown">
+              <li><NavLink className="dropdown-item" to="/patientslogin">👤 Patient</NavLink></li>
+              <li><NavLink className="dropdown-item" to="/doctorlogin">🩺 Doctor</NavLink></li>
+              <li><NavLink className="dropdown-item" to="/ReceptionistLogin">💼 Receptionist</NavLink></li>
+              <li><NavLink className="dropdown-item" to="/admin">🛠️ Admin</NavLink></li>
+            </ul>
+          </li>
+
+         
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
 
         {/* Main Content */}
         <div className="slide container-fluid px-4" style={{ minHeight: "calc(100vh - 80px)", paddingTop: '50px' }}>
@@ -126,6 +133,7 @@ function App() {
             <Route path='/receptionist/dashboard' element={<ReceptionistDashboard />} />
             <Route path="/receptionist/add-patient" element={<AddPatient />} />
             <Route path="/receptionist/view-patients" element={<ViewPatients />} />
+            <Route path='/register-patient' element={<AddPatient/>}/>
             <Route path="/receptionist/schedule-appointment" element={<BookAppointment />} />
             <Route path="/receptionist/view-appointments" element={<ViewAppointmentsReceptionist />} />
             <Route path='/doctor/dashboard' element={<DoctorDashboard />} />

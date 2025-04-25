@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
- // Custom CSS for styling
 
 const PatientsLogin = () => {
   const [username, setUsername] = useState("");
@@ -26,7 +25,6 @@ const PatientsLogin = () => {
         password,
         role,
       });
-      console.log(res.data)
       const user = res.data;
       localStorage.setItem("user", JSON.stringify(user));
 
@@ -54,8 +52,9 @@ const PatientsLogin = () => {
 
   return (
     <div className="login-container">
-      <div className="login-card shadow">
+      <div className="login-card shadow p-4">
         <h2 className="text-center mb-4 text-primary">Patients Login</h2>
+
         <input
           type="text"
           placeholder="👤 Username"
@@ -63,6 +62,7 @@ const PatientsLogin = () => {
           onChange={(e) => setUsername(e.target.value)}
           className="form-control mb-3"
         />
+
         <input
           type="password"
           placeholder="🔒 Password"
@@ -70,6 +70,7 @@ const PatientsLogin = () => {
           onChange={(e) => setPassword(e.target.value)}
           className="form-control mb-3"
         />
+
         <select
           value={role}
           onChange={(e) => setRole(e.target.value)}
@@ -77,12 +78,21 @@ const PatientsLogin = () => {
         >
           <option value="">Select Role</option>
           <option value="doctor">Doctor</option>
-          <option value="receptionist"> Receptionist</option>
-          <option value="patient"> Patient</option>
+          <option value="receptionist">Receptionist</option>
+          <option value="patient">Patient</option>
         </select>
-        <button onClick={handleLogin} className="btn btn-primary w-100">
+
+        <button onClick={handleLogin} className="btn btn-primary w-100 mb-3">
           🔐 Login
         </button>
+
+        {/* 👇 Register Link */}
+        <div className="text-center">
+          <span className="text-muted">New to Lifeline? </span>
+          <Link to="/register-patient" className="text-primary fw-semibold">
+            Register Here
+          </Link>
+        </div>
       </div>
     </div>
   );
