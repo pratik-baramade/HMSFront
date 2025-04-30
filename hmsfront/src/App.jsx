@@ -32,6 +32,8 @@ import Swal from 'sweetalert2';
 import Patientbill from './Components/patientbill';
 import ViewTests from './Components/ViewTests';
 import AddTest from './Components/AddTest';
+import Billing from './Components/Billing';
+import InvoicePage from './Components/InvoicePage';
 
 
 function App() {
@@ -132,6 +134,7 @@ function App() {
             <Route path='/user/bills' element={<ViewBill />} />
             <Route path='/user/prescriptions' element={<PatientPrescriptions />} />
             <Route path='/user/history' element={<MedicalHistory />} />
+            <Route path='/user/dashboard' element={<PatientDashboard/>}/>
             <Route path='/receptionist/dashboard' element={<ReceptionistDashboard />} />
             <Route path="/receptionist/add-patient" element={<AddPatient />} />
             <Route path="/receptionist/view-patients" element={<ViewPatients />} />
@@ -140,10 +143,13 @@ function App() {
             <Route path="/receptionist/view-appointments" element={<ViewAppointmentsReceptionist />} />
             <Route path='/doctor/dashboard' element={<DoctorDashboard />} />
             <Route path='/patient/dashboard' element={<PatientDashboard />} />
-            <Route path="/receptionist/view-billing" element={<Patientbill/>}/>
+            <Route path="/receptionist/view-billing" element={<Billing/>}/>
             <Route path='/About' element={<AboutUs />} />
             <Route path='/receptionist/view-test' element={<ViewTests/>}/>
             <Route path="/receptionist/add-test" element={<AddTest/>}/>
+            <Route path="/invoice/:billId" element={<InvoicePage/>} />
+            <Route path='/doctor/dashboard' element={<DoctorDashboard/>}/>
+            <Route path='/doctor/writeprescription' element={<WritePrescription/>}/>
           </Routes>
         </div>
       </BrowserRouter>

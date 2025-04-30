@@ -45,8 +45,13 @@ const ReceptionistDashboard = () => {
             </NavLink>
           </li>
           <li className="nav-item">
+            <NavLink to="/receptionist/prescription" className="nav-link text-white">
+            <FaCalendarPlus className="me-2" /> prescription
+            </NavLink>
+          </li>
+          <li className="nav-item">
             <NavLink to="/receptionist/view-billing" className="nav-link text-white">
-              <FaFileInvoiceDollar className="me-2" /> View Billing/Prescriptions
+              <FaFileInvoiceDollar className="me-2" /> Billing Module
             </NavLink>
           </li>
           <li className="nav-item dropdown">
