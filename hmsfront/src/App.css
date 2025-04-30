@@ -80,3 +80,17 @@
   z-index: 0;
   object-fit: cover;     /* Ensures the video fills the area nicely */
 }
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa; 
+ 
+
+}
+.patientcontainer {
+  padding-top: 50px; 
+  /* z-index: -1;  */
+  /* position: sticky; */
+  top: 20px; /* Adjust based on the header height */
+ 
+}

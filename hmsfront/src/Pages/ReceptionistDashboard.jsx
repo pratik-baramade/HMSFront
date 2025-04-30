@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom"; 
 import LogoutButton from "../LoginPages/LogoutButton";
 import {
   FaUserPlus,
@@ -11,9 +11,28 @@ import {
   FaUserTie,
 } from "react-icons/fa";
 
+// Import your components
+import AddPatient from "../Components/AddPatient";
+import ViewPatients from "../Components/ViewPatients";
+import ViewSchedule from "../Components/ViewSchedule";
+import ViewAppointmentsReceptionist from "../Components/ViewAppointmentsReceptionist";
+import ViewBill from "../Components/ViewBill";
+import ViewTests from "../Components/ViewTests";
+import AddTest from "../Components/AddTest";
+
+
+
 const ReceptionistDashboard = () => {
   const receptionist = JSON.parse(localStorage.getItem("user"));
   const receptionistName = receptionist?.name || "Receptionist";
+
+  // State to keep track of the active component to display
+  const [activeComponent, setActiveComponent] = useState("home");
+
+  // Function to change the active component based on the clicked menu item
+  const handleMenuClick = (component) => {
+    setActiveComponent(component);
+  };
 
   return (
     <div className="d-flex min-vh-100">
@@ -25,55 +44,85 @@ const ReceptionistDashboard = () => {
         </div>
         <ul className="nav flex-column gap-3">
           <li className="nav-item">
-            <NavLink to="/receptionist/add-patient" className="nav-link text-white">
+            <NavLink
+              to="#"
+              className="nav-link text-white"
+              onClick={() => handleMenuClick("addPatient")}
+            >
               <FaUserPlus className="me-2" /> Add Patient
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/receptionist/view-patients" className="nav-link text-white">
+            <NavLink
+              to="#"
+              className="nav-link text-white"
+              onClick={() => handleMenuClick("viewPatients")}
+            >
               <FaUsers className="me-2" /> View Patients
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/receptionist/schedule-appointment" className="nav-link text-white">
+            <NavLink
+              to="#"
+              className="nav-link text-white"
+              onClick={() => handleMenuClick("scheduleAppointment")}
+            >
               <FaCalendarPlus className="me-2" /> Schedule Appointment
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/receptionist/view-appointments" className="nav-link text-white">
+            <NavLink
+              to="#"
+              className="nav-link text-white"
+              onClick={() => handleMenuClick("viewAppointments")}
+            >
               <FaCalendarAlt className="me-2" /> Manage Appointments
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/receptionist/view-billing" className="nav-link text-white">
+            <NavLink
+              to="#"
+              className="nav-link text-white"
+              onClick={() => handleMenuClick("viewBilling")}
+            >
               <FaFileInvoiceDollar className="me-2" /> View Billing/Prescriptions
             </NavLink>
           </li>
+
+          {/* Test Dropdown */}
           <li className="nav-item dropdown">
-  <a
-    className="nav-link dropdown-toggle text-white"
-    href="#"
-    id="testDropdown"
-    role="button"
-    data-bs-toggle="dropdown"
-    aria-expanded="false"
-  >
-    <FaFileInvoiceDollar className="me-2" />
-    Test
-  </a>
-  <ul className="dropdown-menu" aria-labelledby="testDropdown">
-    <li>
-      <NavLink to="/receptionist/view-test" className="dropdown-item">
-        View Tests
-      </NavLink>
-    </li>
-    <li>
-      <NavLink to="/receptionist/add-test" className="dropdown-item">
-        Add Test
-      </NavLink>
-    </li>
-  </ul>
-</li>
+            <a
+              className="nav-link dropdown-toggle text-white"
+              href="#"
+              id="testDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <FaFileInvoiceDollar className="me-2" />
+              Test
+            </a>
+            <ul className="dropdown-menu" aria-labelledby="testDropdown">
+              <li>
+                <NavLink
+                  to="#"
+                  className="dropdown-item"
+                  onClick={() => handleMenuClick("viewTest")}
+                >
+                  View Tests
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="#"
+                  className="dropdown-item"
+                  onClick={() => handleMenuClick("addTest")}
+                >
+                  Add Test
+                </NavLink>
+              </li>
+            </ul>
+          </li>
 
           <li className="nav-item">
             <LogoutButton redirectTo="/receptionistlogin" />
@@ -83,31 +132,33 @@ const ReceptionistDashboard = () => {
 
       {/* Main Content */}
       <div className="flex-grow-1 p-4">
+      <div className="sticky-header">
         <h2 className="text-primary mb-4">📋 Receptionist Dashboard</h2>
 
-        <div className="row g-4">
-          <div className="col-md-4">
-            <div className="card shadow rounded p-3">
-              <h5>Patients Today</h5>
-              <p>5 new patients registered today.</p>
+        {/* Conditionally render components based on the activeComponent state */}
+        {activeComponent === "home" && (
+          <div className="row g-4">
+            <div className="col-md-4">
+              <div className="card shadow rounded p-3">
+                <h5>Patients Today</h5>
+                <p>5 new patients registered today.</p>
+              </div>
             </div>
-          </div>
 
-          <div className="col-md-4">
-            <div className="card shadow rounded p-3">
-              <h5>Appointments</h5>
-              <p>3 appointments pending confirmation.</p>
+            <div className="col-md-4">
+              <div className="card shadow rounded p-3">
+                <h5>Appointments</h5>
+                <p>3 appointments pending confirmation.</p>
+              </div>
             </div>
-          </div>
 
-          <div className="col-md-4">
-            <div className="card shadow rounded p-3">
-              <h5>Bills Checked</h5>
-              <p>7 patient bills reviewed today.</p>
+            <div className="col-md-4">
+              <div className="card shadow rounded p-3">
+                <h5>Bills Checked</h5>
+                <p>7 patient bills reviewed today.</p>
+              </div>
             </div>
-          </div>
-        </div>
-
+            
         <div className="mt-5">
           <h5 className="text-secondary">Reception Tips 💡</h5>
           <ul>
@@ -116,6 +167,19 @@ const ReceptionistDashboard = () => {
             <li>Maintain billing records accurately.</li>
           </ul>
         </div>
+          </div>
+        )}
+
+        {/* Conditionally render the components when the menu item is clicked */}
+        {activeComponent === "addPatient" && <AddPatient />}
+        {activeComponent === "viewPatients" && <ViewPatients />}
+        {activeComponent === "scheduleAppointment" && <ViewSchedule/>}
+        {activeComponent === "viewAppointments" && <ViewAppointmentsReceptionist/>}
+        {activeComponent === "viewBilling" && <ViewBill />}
+        {activeComponent === "viewTest" && <ViewTests />}
+        {activeComponent === "addTest" && <AddTest />}
+
+      </div>
       </div>
     </div>
   );

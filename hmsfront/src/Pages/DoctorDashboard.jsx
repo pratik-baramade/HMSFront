@@ -1,19 +1,55 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import LogoutButton from "../LoginPages/LogoutButton";
-import {
-  FaUserMd,
-  FaCalendarCheck,
-  FaUserInjured,
-  FaPrescriptionBottleAlt,
-  FaClock,
-  FaUserEdit,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaCalendarAlt, FaUserInjured, FaPrescriptionBottleAlt, FaClock, FaUserEdit, FaSignOutAlt, FaUserMd } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Import navigate
+import Swal from "sweetalert2"; // Import SweetAlert2
+
+// Import your doctor components here
+import ViewAppointments from "../Components/ViewAppointments";
+import ManagePatients from "../Components/ManagePatients"; 
+import WritePrescription from "../Components/WritePrescription";
+import ViewSchedule from "../Components/ViewSchedule";
+import EditDoctor from "../Components/EditDOctor";
 
 const DoctorDashboard = () => {
-  const doctor = JSON.parse(localStorage.getItem("user"));
-  const doctorName = doctor?.name || "Doctor";
+  const [doctorName, setDoctorName] = useState("Doctor");
+  const [selectedPage, setSelectedPage] = useState("home");
+  const navigate = useNavigate(); // Initialize navigate
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        if (user) {
+          setDoctorName(user.Name || user.name || user.username || "Doctor");
+        }
+      } catch (e) {
+        console.error("Invalid user data in localStorage", e);
+      }
+    }
+  }, []);
+
+  const handleNavClick = (page) => {
+    if (page === "logout") {
+      // Show SweetAlert confirmation
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to logout?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, logout!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem("user"); // Clear user info if needed
+          navigate("/doctorlogin"); // Redirect to doctor login page
+        }
+      });
+    } else {
+      setSelectedPage(page);
+    }
+  };
 
   return (
     <div className="d-flex min-vh-100">
@@ -25,71 +61,84 @@ const DoctorDashboard = () => {
         </div>
         <ul className="nav flex-column gap-3">
           <li className="nav-item">
-            <NavLink to="/doctor/appointments" className="nav-link text-white">
-              <FaCalendarCheck className="me-2" /> View Appointments
-            </NavLink>
+            <button onClick={() => handleNavClick("appointments")} className="nav-link text-white btn btn-link">
+              <FaCalendarAlt className="me-2" /> View Appointments
+            </button>
           </li>
           <li className="nav-item">
-            <NavLink to="/doctor/patients" className="nav-link text-white">
+            <button onClick={() => handleNavClick("patients")} className="nav-link text-white btn btn-link">
               <FaUserInjured className="me-2" /> Manage Patients
-            </NavLink>
+            </button>
           </li>
           <li className="nav-item">
-            <NavLink to="/doctor/prescriptions" className="nav-link text-white">
+            <button onClick={() => handleNavClick("prescriptions")} className="nav-link text-white btn btn-link">
               <FaPrescriptionBottleAlt className="me-2" /> Write Prescriptions
-            </NavLink>
+            </button>
           </li>
           <li className="nav-item">
-            <NavLink to="/doctor/schedule" className="nav-link text-white">
+            <button onClick={() => handleNavClick("schedule")} className="nav-link text-white btn btn-link">
               <FaClock className="me-2" /> View Schedule
-            </NavLink>
+            </button>
           </li>
           <li className="nav-item">
-            <NavLink to="/doctor/profile" className="nav-link text-white">
+            <button onClick={() => handleNavClick("profile")} className="nav-link text-white btn btn-link">
               <FaUserEdit className="me-2" /> Edit Profile
-            </NavLink>
+            </button>
           </li>
           <li className="nav-item">
-             <LogoutButton redirectTo="/doctorlogin" />
+            <button onClick={() => handleNavClick("logout")} className="nav-link text-white btn btn-link">
+              <FaSignOutAlt className="me-2" /> Logout
+            </button>
           </li>
         </ul>
       </div>
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <div className="flex-grow-1 p-4">
-        <h2 className="text-success mb-4">🩺 Doctor Dashboard</h2>
+      <div className="sticky-header">
+        <h2 className="text-primary mb-4">Doctor Dashboard</h2>
 
-        <div className="row g-4">
-          <div className="col-md-4">
-            <div className="card shadow rounded p-3">
-              <h5>Today's Appointments</h5>
-              <p>You have 3 appointments today.</p>
+        {/* Conditionally Render Selected Page */}
+        {selectedPage === "home" && (
+          <div className="row g-4">
+            <div className="col-md-4">
+              <div className="card shadow rounded p-3">
+                <h5>Today's Appointments</h5>
+                <p>No appointments scheduled yet.</p>
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="card shadow rounded p-3">
+                <h5>Pending Prescriptions</h5>
+                <p>No pending prescriptions.</p>
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="card shadow rounded p-3">
+                <h5>Upcoming Follow-ups</h5>
+                <p>No follow-ups scheduled.</p>
+              </div>
+            </div>
+
+            <div className="mt-5">
+              <h5 className="text-secondary">Doctor Tips 🧠</h5>
+              <ul>
+                <li>Review patient records carefully before appointments.</li>
+                <li>Update prescriptions clearly and timely.</li>
+                <li>Stay updated with latest healthcare guidelines.</li>
+              </ul>
             </div>
           </div>
+        )}
 
-          <div className="col-md-4">
-            <div className="card shadow rounded p-3">
-              <h5>Pending Prescriptions</h5>
-              <p>2 prescriptions need to be filled.</p>
-            </div>
-          </div>
-
-          <div className="col-md-4">
-            <div className="card shadow rounded p-3">
-              <h5>Patient Follow-ups</h5>
-              <p>1 follow-up scheduled this week.</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-5">
-          <h5 className="text-secondary">Practice Tips 🧠</h5>
-          <ul>
-            <li>Review patient history before each appointment.</li>
-            <li>Keep prescriptions clear and updated.</li>
-            <li>Use EHR effectively for better patient care.</li>
-          </ul>
-        </div>
+        {selectedPage === "appointments" && <ViewAppointments />}
+        {selectedPage === "patients" && <ManagePatients />}
+        {selectedPage === "prescriptions" && <WritePrescription />}
+        {selectedPage === "schedule" && <ViewSchedule />}
+        {selectedPage === "profile" && <EditDoctor />}
+      </div>
       </div>
     </div>
   );

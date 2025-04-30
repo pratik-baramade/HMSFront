@@ -9,8 +9,42 @@ const PatientsLogin = () => {
   const [role, setRole] = useState("");
   const navigate = useNavigate();
 
+  // Function to validate the username and password
+  const validate = () => {
+    // Validate username: should not contain digits
+    if (/\d/.test(username)) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Username",
+        text: "Username should not contain numbers.",
+      });
+      return false;  // Return false to prevent further execution
+    }
+
+    // Validate password: should only contain digits and must be 10 digits long (e.g., phone number)
+    if (/\D/.test(password)) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Password",
+        text: "Password must contain only numbers.",
+      });
+      return false;  // Return false to prevent further execution
+    }
+    if (password.length !== 10) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Password",
+        text: "Password must be exactly 10 digits.",
+      });
+      return false;
+    }
+
+    return true;  // Everything is valid
+  };
+
   const handleLogin = async () => {
-    if (!username || !password || !role) {
+    // Check if any field is empty
+    if (!username.trim() || !password.trim() || !role.trim()) {
       Swal.fire({
         icon: "warning",
         title: "Missing Fields",
@@ -18,6 +52,9 @@ const PatientsLogin = () => {
       });
       return;
     }
+
+    // Validate the username and password
+    if (!validate()) return;  // If validation fails, stop the login process
 
     try {
       const res = await axios.post("http://localhost:8080/hms/login", {
