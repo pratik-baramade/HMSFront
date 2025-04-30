@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import Heading from "../Pages/Heading";
 const PatientsLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -87,9 +87,12 @@ const PatientsLogin = () => {
     }
   };
 
-  return (
-    <div className="login-container">
-      <div className="login-card shadow p-4">
+  return (<>
+    <div >
+      <Heading/>
+      </div>
+    <div className="login-container "style={{marginTop: "80px" }}>
+      <div className="login-card shadow p-4  position-fixed">
         <h2 className="text-center mb-4 text-primary">Patients Login</h2>
 
         <input
@@ -114,8 +117,7 @@ const PatientsLogin = () => {
           className="form-control mb-4"
         >
           <option value="">Select Role</option>
-          <option value="doctor">Doctor</option>
-          <option value="receptionist">Receptionist</option>
+         
           <option value="patient">Patient</option>
         </select>
 
@@ -132,7 +134,7 @@ const PatientsLogin = () => {
         </div>
       </div>
     </div>
-  );
+  </>);
 };
 
 export default PatientsLogin;

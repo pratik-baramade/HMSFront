@@ -48,11 +48,12 @@ const ViewBill = () => {
   return (
     <div className="container mt-4">
       <h2 className="text-primary mb-4">View Bills</h2>
+      
 
       {/* Back Button */}
       <button 
         className="btn btn-secondary mb-4"
-        onClick={() => navigate("/patientdashboard")} // Navigates to PatientDashboard
+        onClick={() => navigate("/user/dashboard")} // Navigates to PatientDashboard
       >
         Back to Dashboard
       </button>

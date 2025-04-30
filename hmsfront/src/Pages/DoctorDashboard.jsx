@@ -9,6 +9,7 @@ import ManagePatients from "../Components/ManagePatients";
 import WritePrescription from "../Components/WritePrescription";
 import ViewSchedule from "../Components/ViewSchedule";
 import EditDoctor from "../Components/EditDOctor";
+import Logout from "./Logout";
 
 const DoctorDashboard = () => {
   const [doctorName, setDoctorName] = useState("Doctor");
@@ -51,8 +52,11 @@ const DoctorDashboard = () => {
     }
   };
 
-  return (
-    <div className="d-flex min-vh-100">
+  return (<>
+    <div>
+     <Logout/>
+    </div>
+    <div className="d-flex min-vh-100 position-fixed " style={{marginTop: "80px" }}>
       {/* Sidebar */}
       <div className="bg-primary text-white p-4" style={{ width: "250px" }}>
         <div className="text-center mb-4">
@@ -85,11 +89,7 @@ const DoctorDashboard = () => {
               <FaUserEdit className="me-2" /> Edit Profile
             </button>
           </li>
-          <li className="nav-item">
-            <button onClick={() => handleNavClick("logout")} className="nav-link text-white btn btn-link">
-              <FaSignOutAlt className="me-2" /> Logout
-            </button>
-          </li>
+        
         </ul>
       </div>
 
@@ -141,6 +141,7 @@ const DoctorDashboard = () => {
       </div>
       </div>
     </div>
+    </>
   );
 };
 

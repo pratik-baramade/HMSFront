@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import PatientsService from "../PatientsService";
 
+
 const EditPatientsProfile = () => {
     const [formData, setFormData] = useState(null); 
     const [loading, setLoading] = useState(true); 
@@ -26,7 +27,9 @@ const EditPatientsProfile = () => {
         }
         setLoading(false); // stop loading in all cases
       }, []);
-
+      const handleBack = () => {
+        navigate("/user/dashboard"); 
+      };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -110,6 +113,7 @@ const EditPatientsProfile = () => {
       <div className="card shadow p-4">
         <h4 className="mb-4 text-primary">Edit Profile</h4>
         <form onSubmit={handleSubmit} className="row g-3">
+      
           <div className="col-md-6">
             <input
               type="text"
@@ -206,6 +210,9 @@ const EditPatientsProfile = () => {
               Cancel
             </button>
           </div>
+          <button className="btn btn-outline-primary mb-2" onClick={handleBack}>
+  ← Back to Dashboard
+</button>
         </form>
       </div>
     </div>

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaCalendarAlt, FaFileInvoice, FaUserEdit, FaNotesMedical, FaPills, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; 
 import Swal from "sweetalert2"; // ✅ IMPORTANT: Import Swal!
-
-// Import your existing components
+import Logout from "./Logout";
 import BookAppointment from "../Components/BookAppointment";
 import ViewBill from "../Components/ViewBill";
 import PatientPrescriptions from "../Components/PatientPrescriptions"; 
@@ -52,10 +51,14 @@ const PatientDashboard = () => {
     }
   };
 
-  return (
-    <div className="d-flex min-vh-100">
+  return (<>
+    <div><Logout/></div>
+    <div className="d-flex min-vh-100 position-fixed " style={{marginTop: "40px" }}>
+      
+      
       {/* Sidebar */}
-      <div className="bg-primary text-white p-4" style={{ width: "250px" }}>
+      <div className="bg-primary text-white p-4 px-5 m-5" style={{ width: "250px",marginTop: "10px" }}
+      >
         <div className="text-center mb-4">
           <FaUserCircle size={60} />
           <h5 className="mt-2">Welcome, {patientName}</h5>
@@ -86,16 +89,12 @@ const PatientDashboard = () => {
               <FaUserEdit className="me-2" /> Edit Profile
             </button>
           </li>
-          <li className="nav-item">
-            <button onClick={() => handleNavClick("logout")} className="nav-link text-white btn btn-link">
-              <FaSignOutAlt className="me-2" /> Logout
-            </button>
-          </li>
+       
         </ul>
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-grow-1 p-4">
+      <div className="flex-grow-1 p-4 m-5">
       <div className="sticky-header">
         <h2 className="text-primary mb-4">Patient Dashboard</h2>
 
@@ -143,6 +142,7 @@ const PatientDashboard = () => {
       </div>
       </div>
     </div>
+    </>
   );
 };
 

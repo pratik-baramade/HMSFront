@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import Heading from "../Pages/Heading";
  // Custom CSS for styling
 
 const DoctorLogin = () => {
@@ -52,8 +53,11 @@ const DoctorLogin = () => {
     }
   };
 
-  return (
-    <div className="login-container">
+  return (<>
+  <div>
+    <Heading/>
+    </div>
+    <div className="login-container"style={{marginTop: "80px" }}>
       <div className="login-card shadow">
         <h2 className="text-center mb-4 text-primary">Doctor Login</h2>
         <input
@@ -77,15 +81,14 @@ const DoctorLogin = () => {
         >
           <option value="">Select Role</option>
           <option value="doctor">Doctor</option>
-          <option value="receptionist"> Receptionist</option>
-          <option value="patient"> Patient</option>
+       
         </select>
         <button onClick={handleLogin} className="btn btn-primary w-100">
           🔐 Login
         </button>
       </div>
     </div>
-  );
+    </> );
 };
 
 export default DoctorLogin;
