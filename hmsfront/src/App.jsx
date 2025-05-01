@@ -8,8 +8,7 @@ import AdminPanel from './Pages/AdminPanel';
 import PatientDashboard from './Pages/PatientDashboard';
 import BookAppointment from './Components/BookAppointment';
 import DoctorDashboard from './Pages/DoctorDashboard';
-import AboutUs from './Pages/AboutUs';
-import Login from './Components/Login';
+
 import PatientsLogin from './LoginPages/PatientsLogin';
 import DoctorLogin from './LoginPages/DoctorLogin';
 import ReceptionistLogin from './LoginPages/ReceptionistLogin';
@@ -64,61 +63,13 @@ function App() {
     <>
       <BrowserRouter>
         {/* Navbar */}
-        <div className="Wrapper position-fixed ">
-  <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow sticky-top">
-    <div className="container-fluid">
-      {/* Logo */}
-      <NavLink className="navbar-brand d-flex align-items-center" to="/">
-        <img src={lifelineLogo} alt="Lifeline Logo" width="50" height="50" className="d-inline-block align-text-top me-2" />
-        <span className="fw-bold fs-4">Lifeline Hospital</span>
-      </NavLink>
-
-      {/* Toggler */}
-      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
-
-      {/* Navbar Links */}
-      <div className="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li className="nav-item">
-            <NavLink className="nav-link fw-semibold" to="/">🏠 Home</NavLink>
-          </li>
-          
-
-          {/* Login Dropdown with Default Green Background */}
-          <li className="nav-item dropdown border-5" >
-            <a
-              className="nav-link dropdown-toggle btn btn-success fw-semibold text-white"
-              href="#"
-              id="loginDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              🔐 Login
-            </a>
-            <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="loginDropdown">
-              <li><NavLink className="dropdown-item" to="/patientslogin">👤 Patient</NavLink></li>
-              <li><NavLink className="dropdown-item" to="/doctorlogin">🩺 Doctor</NavLink></li>
-              <li><NavLink className="dropdown-item" to="/ReceptionistLogin">💼 Receptionist</NavLink></li>
-              <li><NavLink className="dropdown-item" to="/admin">🛠️ Admin</NavLink></li>
-            </ul>
-          </li>
-
-         
-        </ul>
-      </div>
-    </div>
-  </nav>
-</div>
-
+     
 
         {/* Main Content */}
-        <div className="slide container-fluid px-4" style={{ minHeight: "calc(100vh - 80px)", paddingTop: '50px' }}>
+        <div className="slide container-fluid px-4" style={{ minHeight: "calc(100vh - 80px)", paddingTop: '5px' }}>
           <Routes>
             <Route path='/' element={<VideoPlayer />} />
-            <Route path="/login" element={<Login />} />
+            
             <Route path='/patientslogin' element={<PatientsLogin />} />
             <Route path='/doctorlogin' element={<DoctorLogin />} />
             <Route path='/ReceptionistLogin' element={<ReceptionistLogin />} />
@@ -145,7 +96,6 @@ function App() {
             <Route path='/doctor/dashboard' element={<DoctorDashboard />} />
             <Route path='/patient/dashboard' element={<PatientDashboard />} />
             <Route path="/receptionist/view-billing" element={<Billing/>}/>
-            <Route path='/About' element={<AboutUs />} />
             <Route path='/receptionist/view-test' element={<ViewTests/>}/>
             <Route path="/receptionist/add-test" element={<AddTest/>}/>
             <Route path="/invoice/:billId" element={<InvoicePage/>} />

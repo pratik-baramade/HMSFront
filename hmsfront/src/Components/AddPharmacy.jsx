@@ -12,6 +12,28 @@ const AddPharmacy = () => {
 
   const [message, setMessage] = useState("");
 
+   if (!pharmacyData.name.trim()) {
+        Swal.fire("Validation Error", "Please enter Medicine Name.", "warning");
+        return;
+      }
+      if (!pharmacyData.stock.trim()) {
+        Swal.fire("Validation Error", "Please enter stock.", "warning");
+        return;
+      }
+      if (!pharmacyData.price.trim()) {
+        Swal.fire("Validation Error", "Please enter pharmacy Price.", "warning");
+        return;
+      }
+      if (!/^\d{10}$/.test(pharmacyData.price)) {
+        Swal.fire("Validation Error", "WhatsApp number must be 10 digits.", "warning");
+        return;
+      }
+      if (!pharmacyData.symptoms.trim()) {
+        Swal.fire("Validation Error", "Please enter symptoms.", "warning");
+        return;
+      }
+  
+
   const handleChange = (e) => {
     setPharmacyData({
       ...pharmacyData,

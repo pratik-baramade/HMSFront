@@ -128,7 +128,7 @@ const WritePrescription = () => {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 position-fixed z-1">
       <h3 className="text-success mb-3">Write Prescription for {patient?.name}</h3>
 
       {/* Symptoms Input */}
