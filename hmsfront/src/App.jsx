@@ -34,6 +34,7 @@ import ViewTests from './Components/ViewTests';
 import AddTest from './Components/AddTest';
 import Billing from './Components/Billing';
 import InvoicePage from './Components/InvoicePage';
+import ShowPrescription from './Components/ShowPrescription';
 
 
 function App() {
@@ -150,6 +151,7 @@ function App() {
             <Route path="/invoice/:billId" element={<InvoicePage/>} />
             <Route path='/doctor/dashboard' element={<DoctorDashboard/>}/>
             <Route path='/doctor/writeprescription' element={<WritePrescription/>}/>
+            <Route path='/receptionist/prescription' element={<ShowPrescription/>}/>
           </Routes>
         </div>
       </BrowserRouter>

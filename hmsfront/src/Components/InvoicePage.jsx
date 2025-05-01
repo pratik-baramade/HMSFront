@@ -1,14 +1,14 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import jsPDF from "jspdf";
 import BillingService from "../BillingService";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 const InvoicePage = () => {
   const { billId } = useParams();
   const [bill, setBill] = useState(null);
 
   useEffect(() => {
-   
     BillingService.getBillByBillId(billId)
       .then((res) => setBill(res.data))
       .catch((err) => console.error(err));
@@ -16,27 +16,66 @@ const InvoicePage = () => {
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    doc.text(`Invoice for Bill ID: ${bill.bill_id}`, 10, 10);
-    doc.text(`Patient Name: ${bill.patientName}`, 10, 20);
-    doc.text(`Total Amount: ₹${bill.total_amount}`, 10, 30);
-    doc.text(`Payment Status: ${bill.payment_Status}`, 10, 40);
-    doc.text(`Payment Mode: ${bill.payment_mode}`, 10, 50);
+  
+    // Header
+    doc.setFontSize(18);
+    doc.text("LifeLine Hospital", 105, 20, null, null, "center");
+  
+    doc.setFontSize(14);
+    doc.text("INVOICE", 105, 30, null, null, "center");
+  
+    // Horizontal line
+    doc.line(10, 35, 200, 35); // x1, y1, x2, y2
+  
+    // Content
+    doc.setFontSize(12);
+    let y = 45;
+  
+    doc.text(`Bill ID: ${bill.bill_id}`, 20, y);
+    y += 10;
+    doc.text(`Patient Name: ${bill.patientName}`, 20, y);
+    y += 10;
+    doc.text(`Total Amount: ₹${bill.total_amount}`, 20, y);
+    y += 10;
+    doc.text(`Payment Status: ${bill.payment_Status}`, 20, y);
+    y += 10;
+    doc.text(`Payment Mode: ${bill.payment_mode}`, 20, y);
+  
+    // Footer line
+    doc.line(10, y + 10, 200, y + 10);
+    doc.setFontSize(10);
+    doc.text("Thank you for choosing Life Hospital.", 105, y + 20, null, null, "center");
+  
+    // Save the file
     doc.save(`Invoice_Bill_${bill.bill_id}.pdf`);
   };
+  
 
-  if (!bill) return <div>Loading...</div>;
+  if (!bill) return <div className="text-center mt-5">Loading...</div>;
 
   return (
     <div className="container mt-5">
-      <h2 className="text-primary">Invoice</h2>
-      <p><strong>Bill ID:</strong> {bill.bill_id}</p>
-      <p><strong>Patient Name:</strong> {bill.patientName}</p>
-      <p><strong>Total Amount:</strong> ₹{bill.total_amount}</p>
-      <p><strong>Status:</strong> {bill.payment_Status}</p>
-      <p><strong>Payment Mode:</strong> {bill.payment_mode}</p>
-      <button className="btn btn-outline-danger mt-3" onClick={generatePDF}>
-        Download PDF
-      </button>
+      <div className="row justify-content-center">
+        <div className="col-md-8">
+          <div className="card shadow-lg">
+            <div className="card-header bg-primary text-white">
+              <h4 className="mb-0">Invoice</h4>
+            </div>
+            <div className="card-body">
+              <p><strong>Bill ID:</strong> {bill.bill_id}</p>
+              <p><strong>Patient Name:</strong> {bill.patientName}</p>
+              <p><strong>Total Amount:</strong> ₹{bill.total_amount}</p>
+              <p><strong>Status:</strong> {bill.payment_Status}</p>
+              <p><strong>Payment Mode:</strong> {bill.payment_mode}</p>
+              <div className="text-end">
+                <button className="btn btn-outline-danger" onClick={generatePDF}>
+                  Download PDF
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
