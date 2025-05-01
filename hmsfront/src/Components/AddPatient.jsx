@@ -120,6 +120,7 @@ const AddPatient = () => {
           position: "center"
         });
 
+<<<<<<< HEAD
         // Reset the form after submission
         SetPatients({
           name: "",
@@ -130,6 +131,18 @@ const AddPatient = () => {
           mobailenumber: "",
           wpnumber: "",
           address: ""
+=======
+    let ShowPaitients = (e) => {
+        e.preventDefault();
+        let jsonobj = JSON.stringify(PData);
+        // alert(PData.name + "\t" + PData.dob + "\t" + PData.gender + "\t" + PData.maritalstatus + "\t" + PData.mobailenumber + "\t" + PData.wpnumber + "\t" + PData.address);
+
+        let promise = PatientsService.CreatePatients(PData);
+        promise.then((res) => {
+            setsms(res.data);
+        }).catch((res) => {
+            setsms([]);
+>>>>>>> origin/Pratik
         });
 
         setsms(""); // Clear old messages if needed

@@ -194,7 +194,12 @@ const ViewPatients = () => {
         )}
       </div>
     </div>
+<<<<<<< HEAD
   );
 };
 
+=======
+    </>)
+}
+>>>>>>> origin/Pratik
 export default ViewPatients;
