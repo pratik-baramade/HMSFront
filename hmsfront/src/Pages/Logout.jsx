@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import lifelineLogo from "../assets/lifeline.png";
 import Swal from "sweetalert2";
 import { FiLogOut } from "react-icons/fi";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 export default function Logout() {
   const navigate = useNavigate();
@@ -13,6 +14,23 @@ export default function Logout() {
       <div className="Wrapper position-fixed mb-3" style={{ width: "97%" }}>
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow sticky-top">
           <div className="container-fluid">
+             {/* Previous & Next Arrows */}
+                        <div className="d-flex align-items-center mx-3">
+                          <button
+                            className="btn btn-outline-light me-2"
+                            onClick={() => navigate(-1)}
+                            title="Go Back"
+                          >
+                            <FaArrowLeft />
+                          </button>
+                          <button
+                            className="btn btn-outline-light"
+                            onClick={() => navigate(1)}
+                            title="Go Forward"
+                          >
+                            <FaArrowRight />
+                          </button>
+                        </div>
             {/* Logo */}
             <NavLink className="navbar-brand d-flex align-items-center" to="/">
               <img

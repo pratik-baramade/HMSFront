@@ -8,22 +8,12 @@ const ViewPatients = () => {
   const [searchText, setSearchText] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [currentPatient, setCurrentPatient] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [patientsPerPage] = useState(5); // Show 10 patients per page
 
   useEffect(() => {
     fetchAllPatients();
   }, []);
-
-  const fetchAllPatients = () => {
-    PatientsService.getPatients()
-      .then((res) => {
-        setPatients(res.data);
-        console.log("Fetched patients:", res.data);
-      })
-      .catch((err) => {
-        console.error("Fetch error:", err);
-        setPatients([]);
-      });
-  };
 
   useEffect(() => {
     if (searchText.trim() === "") {
@@ -42,39 +32,57 @@ const ViewPatients = () => {
     }
   }, [searchText]);
 
-  
-      // Inside the component
-      const handleDelete = (id) => {
-        Swal.fire({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-          if (result.isConfirmed) {
-            PatientsService.deletepatients(id)
-              .then(() => {
-                Swal.fire({
-                  title: "Deleted!",
-                  text: "Patient has been deleted.",
-                  icon: "success"
-                });
-                fetchAllPatients(); 
-              })
-              .catch(() => {
-                Swal.fire({
-                  title: "Failed!",
-                  text: "Something went wrong while deleting.",
-                  icon: "error"
-                });
-              });
-          }
-        });
-      };
-      
+  const fetchAllPatients = () => {
+    PatientsService.getPatients()
+      .then((res) => {
+        setPatients(res.data);
+        console.log("Fetched patients:", res.data);
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err);
+        setPatients([]);
+      });
+  };
+
+  // Pagination logic
+  const indexOfLastPatient = currentPage * patientsPerPage;
+  const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
+  const currentPatients = patients.slice(indexOfFirstPatient, indexOfLastPatient);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Handle Delete
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        PatientsService.deletepatients(id)
+          .then(() => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Patient has been deleted.",
+              icon: "success",
+            });
+            fetchAllPatients();
+          })
+          .catch(() => {
+            Swal.fire({
+              title: "Failed!",
+              text: "Something went wrong while deleting.",
+              icon: "error",
+            });
+          });
+      }
+    });
+  };
 
   const handleEdit = (patient) => {
     setCurrentPatient(patient);
@@ -82,7 +90,6 @@ const ViewPatients = () => {
   };
 
   const handleUpdateSave = (updatedPatient) => {
-
     PatientsService.updatePatient(updatedPatient.patientId, updatedPatient)
       .then(() => {
         Swal.fire({
@@ -93,11 +100,9 @@ const ViewPatients = () => {
           timer: 1500,
           position: "center",
           didOpen: (popup) => {
-            // Optional draggable effect
             popup.setAttribute("draggable", "true");
-          }
+          },
         });
-        
         fetchAllPatients();
         setEditMode(false);
         setCurrentPatient(null);
@@ -107,6 +112,9 @@ const ViewPatients = () => {
         alert("Failed to update patient");
       });
   };
+
+  // Calculate total pages
+  const totalPages = Math.ceil(patients.length / patientsPerPage);
 
   return (
     <div className="container mt-5">
@@ -143,8 +151,8 @@ const ViewPatients = () => {
               </tr>
             </thead>
             <tbody>
-              {patients.length > 0 ? (
-                patients.map((patient, index) => (
+              {currentPatients.length > 0 ? (
+                currentPatients.map((patient, index) => (
                   <tr key={index}>
                     <td>{patient.patientId}</td>
                     <td>{patient.name}</td>
@@ -182,6 +190,48 @@ const ViewPatients = () => {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="d-flex justify-content-center">
+          <ul className="pagination">
+            {/* Previous Page Button */}
+            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+              <button
+                className="page-link"
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+            </li>
+
+            {/* Page Number Buttons */}
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+              <li
+                key={pageNumber}
+                className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => paginate(pageNumber)}
+                >
+                  {pageNumber}
+                </button>
+              </li>
+            ))}
+
+            {/* Next Page Button */}
+            <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+              <button
+                className="page-link"
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </li>
+          </ul>
         </div>
 
         {/* Update section */}

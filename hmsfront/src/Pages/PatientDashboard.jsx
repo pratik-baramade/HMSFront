@@ -9,7 +9,7 @@ import PatientPrescriptions from "../Components/PatientPrescriptions";
 import MedicalHistory from "../Components/MedicalHistory";
 import EditPatientsProfile from "../Components/EditPatientProfile";
 import PatientsLogin from "../LoginPages/PatientsLogin"; // Not really needed to render manually
-
+import NavigationButtons from "../Components/NavigationButtons";
 const PatientDashboard = () => {
   const [patientName, setPatientName] = useState("Patient");
   const [selectedPage, setSelectedPage] = useState("home");
@@ -53,7 +53,8 @@ const PatientDashboard = () => {
 
   return (<>
     <div><Logout/></div>
-    <div className="d-flex min-vh-100 position-fixed " style={{marginTop: "40px" }}>
+ 
+    <div className="d-flex min-vh-100 " style={{marginTop: "40px" }}>
       
       
       {/* Sidebar */}

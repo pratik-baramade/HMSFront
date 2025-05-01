@@ -4,7 +4,7 @@ import PatientsService from "../PatientsService";
 import DoctorsService from "../DoctorsService";
 import Swal from "sweetalert2";
 
-const ViewAppointmentsReceptionist = () => {
+export default function ViewAppointmentsReceptionist () {
   const [appointments, setAppointments] = useState([]);
   const [patients, setPatients] = useState([]);
   const [doctors, setDoctors] = useState([]);
@@ -13,7 +13,7 @@ const ViewAppointmentsReceptionist = () => {
   const [searchDate, setSearchDate] = useState("");
   const [searchPatient, setSearchPatient] = useState("");
   const [searchDoctor, setSearchDoctor] = useState("");
-  const recordsPerPage = 10;
+  const recordsPerPage = 2;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -121,22 +121,6 @@ const ViewAppointmentsReceptionist = () => {
                 onChange={handleChange}
               />
             </div>
-            {/* <div className="col-md-4">
-              <label className="form-label">Doctor</label>
-              <select
-                className="form-select"
-                name="doctor_id"
-                value={editForm.doctor_id}
-                onChange={handleChange}
-              >
-                <option value="">Select Doctor</option>
-                {doctors.map((doc) => (
-                  <option key={doc.doctor_id} value={doc.doctor_id}>
-                    {doc.name}
-                  </option>
-                ))}
-              </select>
-            </div> */}
             <div className="col-md-2 d-flex align-items-end">
               <button className="btn btn-success w-100" onClick={handleUpdate}>
                 Update
@@ -230,7 +214,15 @@ const ViewAppointmentsReceptionist = () => {
       {totalPages > 1 && (
         <div className="d-flex justify-content-center">
           <nav>
-            <ul className="pagination">
+            <ul className="pagination pagination-lg">
+              <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  &laquo; Prev
+                </button>
+              </li>
               {Array.from({ length: totalPages }, (_, i) => (
                 <li
                   key={i + 1}
@@ -240,6 +232,16 @@ const ViewAppointmentsReceptionist = () => {
                   <button className="page-link">{i + 1}</button>
                 </li>
               ))}
+              <li
+                className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  Next &raquo;
+                </button>
+              </li>
             </ul>
           </nav>
         </div>
@@ -248,4 +250,4 @@ const ViewAppointmentsReceptionist = () => {
   );
 };
 
-export default ViewAppointmentsReceptionist;
+

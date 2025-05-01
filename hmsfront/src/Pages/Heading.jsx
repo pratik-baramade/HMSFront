@@ -1,14 +1,34 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import lifelineLogo from "../assets/lifeline.png"; // Adjusting path based on your directory structure
+import { NavLink, useNavigate } from "react-router-dom";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import lifelineLogo from "../assets/lifeline.png"; // Adjust path if needed
 
 export default function Heading() {
+  const navigate = useNavigate();
+
   return (
     <>
       {/* Navbar */}
-      <div className="Wrapper position-fixed "style={{width:'97%'}}>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow sticky-top ">
+      <div className="Wrapper position-fixed" style={{ width: "97%", zIndex: 1050 }}>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow sticky-top">
           <div className="container-fluid">
+             {/* Previous & Next Arrows */}
+             <div className="d-flex align-items-center mx-3">
+              <button
+                className="btn btn-outline-light me-2"
+                onClick={() => navigate(-1)}
+                title="Go Back"
+              >
+                <FaArrowLeft />
+              </button>
+              <button
+                className="btn btn-outline-light"
+                onClick={() => navigate(1)}
+                title="Go Forward"
+              >
+                <FaArrowRight />
+              </button>
+            </div>
             {/* Logo */}
             <NavLink className="navbar-brand d-flex align-items-center" to="/">
               <img
@@ -20,6 +40,8 @@ export default function Heading() {
               />
               <span className="fw-bold fs-4">Lifeline Hospital</span>
             </NavLink>
+
+           
 
             {/* Toggler */}
             <button

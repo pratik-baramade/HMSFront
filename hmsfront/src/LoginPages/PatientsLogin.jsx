@@ -3,11 +3,14 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Heading from "../Pages/Heading";
+
 const PatientsLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
   const navigate = useNavigate();
+
+  // Default role set to 'patient'
+  const role = "patient"; // Directly setting the role to 'patient'
 
   // Function to validate the username and password
   const validate = () => {
@@ -44,11 +47,11 @@ const PatientsLogin = () => {
 
   const handleLogin = async () => {
     // Check if any field is empty
-    if (!username.trim() || !password.trim() || !role.trim()) {
+    if (!username.trim() || !password.trim()) {
       Swal.fire({
         icon: "warning",
         title: "Missing Fields",
-        text: "Please fill all fields and select a role.",
+        text: "Please fill all fields.",
       });
       return;
     }
@@ -74,67 +77,58 @@ const PatientsLogin = () => {
       });
 
       setTimeout(() => {
-        if (role === "doctor") navigate("/doctor/dashboard");
-        else if (role === "receptionist") navigate("/receptionist/dashboard");
-        else if (role === "patient") navigate("/patient/dashboard");
+        // Redirect to the patient dashboard
+        navigate("/patient/dashboard");
       }, 1500);
     } catch (err) {
       Swal.fire({
         icon: "error",
         title: "Login Failed",
-        text: "Invalid username, password, or role.",
+        text: "Invalid username or password.",
       });
     }
   };
 
-  return (<>
-    <div >
-      <Heading/>
+  return (
+    <>
+      <div>
+        <Heading />
       </div>
-    <div className="login-container "style={{marginTop: "80px" }}>
-      <div className="login-card shadow p-4  position-fixed">
-        <h2 className="text-center mb-4 text-primary">Patients Login</h2>
+      <div className="login-container" style={{ marginTop: "80px" }}>
+        <div className="login-card shadow p-4 position-fixed">
+          <h2 className="text-center mb-4 text-primary">Patients Login</h2>
 
-        <input
-          type="text"
-          placeholder="👤 Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="form-control mb-3"
-        />
+          <input
+            type="text"
+            placeholder="👤 Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="form-control mb-3"
+          />
 
-        <input
-          type="password"
-          placeholder="🔒 Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="form-control mb-3"
-        />
+          <input
+            type="password"
+            placeholder="🔒 Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="form-control mb-3"
+          />
 
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          className="form-control mb-4"
-        >
-          <option value="">Select Role</option>
-         
-          <option value="patient">Patient</option>
-        </select>
+          <button onClick={handleLogin} className="btn btn-primary w-100 mb-3">
+            🔐 Login
+          </button>
 
-        <button onClick={handleLogin} className="btn btn-primary w-100 mb-3">
-          🔐 Login
-        </button>
-
-        {/* 👇 Register Link */}
-        <div className="text-center">
-          <span className="text-muted">New to Lifeline? </span>
-          <Link to="/register-patient" className="text-primary fw-semibold">
-            Register Here
-          </Link>
+          {/* 👇 Register Link */}
+          <div className="text-center">
+            <span className="text-muted">New to Lifeline? </span>
+            <Link to="/register-patient" className="text-primary fw-semibold">
+              Register Here
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
-  </>);
+    </>
+  );
 };
 
 export default PatientsLogin;

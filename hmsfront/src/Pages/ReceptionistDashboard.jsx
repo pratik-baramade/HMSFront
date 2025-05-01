@@ -20,6 +20,7 @@ import ViewBill from "../Components/ViewBill";
 import ViewTests from "../Components/ViewTests";
 import AddTest from "../Components/AddTest";
 import Logout from "./Logout";
+import PatientPrescriptions from "../Components/PatientPrescriptions";
 
 
 
@@ -39,7 +40,7 @@ const ReceptionistDashboard = () => {
     <div>
       <Logout/>
     </div>
-    <div className="d-flex min-vh-100 position-fixed " style={{marginTop: "80px" }}>
+    <div className="d-flex min-vh-100 " style={{marginTop: "80px" }}>
       {/* Sidebar */}
       <div className="bg-info text-white p-4" style={{ width: "250px" }}>
         <div className="text-center mb-4">
@@ -84,12 +85,12 @@ const ReceptionistDashboard = () => {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/receptionist/prescription" className="nav-link text-white">
+            <NavLink to="#" className="nav-link text-white"onClick={() => handleMenuClick("PatientPrescriptions")}>
             <FaCalendarPlus className="me-2" /> prescription
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/receptionist/view-billing" className="nav-link text-white">
+            <NavLink to="#" className="nav-link text-white" onClick={() => handleMenuClick("ViewBill")}>
               <FaFileInvoiceDollar className="me-2" /> View Billing/Prescriptions
             </NavLink>
           </li>
@@ -181,6 +182,8 @@ const ReceptionistDashboard = () => {
         {activeComponent === "viewBilling" && <ViewBill />}
         {activeComponent === "viewTest" && <ViewTests />}
         {activeComponent === "addTest" && <AddTest />}
+        {activeComponent === "PatientPrescriptions" && <PatientPrescriptions />}
+        {activeComponent === "ViewBill" && <ViewBill />}  
 
       </div>
       </div>
