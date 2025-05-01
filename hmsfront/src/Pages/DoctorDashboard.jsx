@@ -56,7 +56,7 @@ const DoctorDashboard = () => {
     <div>
      <Logout/>
     </div>
-    <div className="d-flex min-vh-100 position-fixed " style={{marginTop: "80px" }}>
+    <div className="d-flex min-vh-100 " style={{marginTop: "80px" }}>
       {/* Sidebar */}
       <div className="bg-primary text-white p-4" style={{ width: "250px" }}>
         <div className="text-center mb-4">

@@ -8,6 +8,7 @@ import DoctorsService from '../DoctorsService';
 import AddReceptionis from '../AddReceptionis';
 import ReceptionisService from '../ReceptionisService';
 import ViewReceptionists from '../ViewReceptionists';
+import Logout from './Logout';
 const AdminPanel = () => {
   const [activeModule, setActiveModule] = useState(null);
   const [activeComponent, setActiveComponent] = useState(null);
@@ -118,8 +119,9 @@ const AdminPanel = () => {
     }
   };
 
-  return (
-    <div className={`p-4 rounded-4 ${getModuleBackground()} shadow-sm`} style={{ minHeight: '100vh' }}>
+  return (<>
+  <Logout/>
+    <div className={`p-4 rounded-4 ${getModuleBackground()} shadow-sm`} style={{ minHeight: '100vh', marginTop:'80px'}}>
       <h2 className="text-center text-primary fw-bold mb-4">🏥 Admin Dashboard</h2>
 
       {/* Tab-Like Module Selector */}
@@ -164,6 +166,7 @@ const AdminPanel = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 
