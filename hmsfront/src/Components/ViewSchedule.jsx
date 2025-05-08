@@ -64,7 +64,7 @@ const ViewSchedule = () => {
             <div className="row">
               {groupedAppointments[date].map((appointment) => (
                 <div className="col-md-4 mb-4" key={appointment.appointment_id}>
-                  <div className="card shadow-sm border-primary">
+                  <div className=" shadow-sm border-primary">
                     <div className="card-body">
                       <h5 className="card-title text-primary">
                         Appointment ID: <strong>{appointment.appointment_id}</strong>

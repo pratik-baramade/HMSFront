@@ -9,7 +9,7 @@ const AddPatient = () => {
     gender: "",
     maritalstatus: "",
     email: "",
-    mobileNumber: "", // corrected spelling
+    mobailenumber: "", 
     wpnumber: "",
     address: ""
   });
@@ -83,11 +83,11 @@ const AddPatient = () => {
     }
 
     // Mobile number validation
-    if (!PData.mobileNumber.trim()) { // updated to match the state
+    if (!PData.mobailenumber.trim()) { // updated to match the state
       Swal.fire("Validation Error", "Please enter a valid mobile number.", "warning");
       return;
     }
-    if (!/^\d{10}$/.test(PData.mobileNumber)) { // updated to match the state
+    if (!/^\d{10}$/.test(PData.mobailenumber)) { // updated to match the state
       Swal.fire("Validation Error", "Mobile number must be 10 digits.", "warning");
       return;
     }
@@ -120,7 +120,6 @@ const AddPatient = () => {
           position: "center"
         });
 
-<<<<<<< HEAD
         // Reset the form after submission
         SetPatients({
           name: "",
@@ -131,18 +130,6 @@ const AddPatient = () => {
           mobailenumber: "",
           wpnumber: "",
           address: ""
-=======
-    let ShowPaitients = (e) => {
-        e.preventDefault();
-        let jsonobj = JSON.stringify(PData);
-        // alert(PData.name + "\t" + PData.dob + "\t" + PData.gender + "\t" + PData.maritalstatus + "\t" + PData.mobailenumber + "\t" + PData.wpnumber + "\t" + PData.address);
-
-        let promise = PatientsService.CreatePatients(PData);
-        promise.then((res) => {
-            setsms(res.data);
-        }).catch((res) => {
-            setsms([]);
->>>>>>> origin/Pratik
         });
 
         setsms(""); // Clear old messages if needed
@@ -185,8 +172,9 @@ const AddPatient = () => {
               <input type="text" className="form-control form-control-sm p-2" id="email" name="email" value={PData.email} onChange={Universalhand} />
             </div>
             <div className="col-12 col-md-6 mb-2">
-              <label htmlFor="mobileNumber" className="form-label">Mobile Number</label>
-              <input type="text" className="form-control form-control-sm p-2" id="mobileNumber" name="mobileNumber" value={PData.mobileNumber} onChange={Universalhand} />
+              <label htmlFor="mobailenumber" className="form-label">Mobile Number</label>
+              <input type="text" className="form-control form-control-sm p-2" id="mobailenumber" name="mobailenumber" value={PData.mobailenumber} onChange={Universalhand} />
+
             </div>
           </div>
 

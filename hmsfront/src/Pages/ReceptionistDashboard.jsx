@@ -42,7 +42,7 @@ const ReceptionistDashboard = () => {
     </div>
     <div className="d-flex min-vh-100 " style={{marginTop: "80px" }}>
       {/* Sidebar */}
-      <div className="bg-info text-white p-4" style={{ width: "250px" }}>
+      <div className="bg-primary text-white p-4" style={{ width: "250px" }}>
         <div className="text-center mb-4">
           <FaUserTie size={60} />
           <h5 className="mt-2">Welcome, {receptionistName}</h5>
@@ -136,28 +136,27 @@ const ReceptionistDashboard = () => {
 
       {/* Main Content */}
       <div className="flex-grow-1 p-4">
-      <div className="sticky-header">
         <h2 className="text-primary mb-4">📋 Receptionist Dashboard</h2>
 
         {/* Conditionally render components based on the activeComponent state */}
         {activeComponent === "home" && (
           <div className="row g-4">
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Patients Today</h5>
                 <p>5 new patients registered today.</p>
               </div>
             </div>
 
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Appointments</h5>
                 <p>3 appointments pending confirmation.</p>
               </div>
             </div>
 
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Bills Checked</h5>
                 <p>7 patient bills reviewed today.</p>
               </div>
@@ -187,7 +186,7 @@ const ReceptionistDashboard = () => {
 
       </div>
       </div>
-    </div>
+   
     </>
   );
 };

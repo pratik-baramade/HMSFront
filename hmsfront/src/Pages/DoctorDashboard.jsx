@@ -94,8 +94,7 @@ const DoctorDashboard = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-grow-1 p-4">
-      <div className="sticky-header">
+      <div className="flex-grow-1 p-4" style={{ marginLeft: "50px", paddingTop: "80px" }}>
         <h2 className="text-primary mb-4">Doctor Dashboard</h2>
 
         {/* Conditionally Render Selected Page */}
@@ -140,7 +139,7 @@ const DoctorDashboard = () => {
         {selectedPage === "profile" && <EditDoctor />}
       </div>
       </div>
-    </div>
+    
     </>
   );
 };
