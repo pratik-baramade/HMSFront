@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom"; 
 import LogoutButton from "../LoginPages/LogoutButton";
+import ViewScheduleReceptionist from "../Components/ViewScheduleRecipnest";
+import ViewAllPrescription from "../Components/ViewAllPrescription";
 import {
   FaUserPlus,
   FaUsers,
@@ -20,6 +22,7 @@ import ViewBill from "../Components/ViewBill";
 import ViewTests from "../Components/ViewTests";
 import AddTest from "../Components/AddTest";
 import Logout from "./Logout";
+import Billing from "../Components/Billing";
 import PatientPrescriptions from "../Components/PatientPrescriptions";
 
 
@@ -42,7 +45,7 @@ const ReceptionistDashboard = () => {
     </div>
     <div className="d-flex min-vh-100 " style={{marginTop: "80px" }}>
       {/* Sidebar */}
-      <div className="bg-info text-white p-4" style={{ width: "250px" }}>
+      <div className="bg-primary text-white p-4" style={{ width: "250px" }}>
         <div className="text-center mb-4">
           <FaUserTie size={60} />
           <h5 className="mt-2">Welcome, {receptionistName}</h5>
@@ -136,28 +139,27 @@ const ReceptionistDashboard = () => {
 
       {/* Main Content */}
       <div className="flex-grow-1 p-4">
-      <div className="sticky-header">
         <h2 className="text-primary mb-4">📋 Receptionist Dashboard</h2>
 
         {/* Conditionally render components based on the activeComponent state */}
         {activeComponent === "home" && (
           <div className="row g-4">
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Patients Today</h5>
                 <p>5 new patients registered today.</p>
               </div>
             </div>
 
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Appointments</h5>
                 <p>3 appointments pending confirmation.</p>
               </div>
             </div>
 
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Bills Checked</h5>
                 <p>7 patient bills reviewed today.</p>
               </div>
@@ -177,17 +179,17 @@ const ReceptionistDashboard = () => {
         {/* Conditionally render the components when the menu item is clicked */}
         {activeComponent === "addPatient" && <AddPatient />}
         {activeComponent === "viewPatients" && <ViewPatients />}
-        {activeComponent === "scheduleAppointment" && <ViewSchedule/>}
+        {activeComponent === "scheduleAppointment" && <ViewScheduleReceptionist/>}
         {activeComponent === "viewAppointments" && <ViewAppointmentsReceptionist/>}
         {activeComponent === "viewBilling" && <ViewBill />}
         {activeComponent === "viewTest" && <ViewTests />}
         {activeComponent === "addTest" && <AddTest />}
-        {activeComponent === "PatientPrescriptions" && <PatientPrescriptions />}
-        {activeComponent === "ViewBill" && <ViewBill />}  
+        {activeComponent === "PatientPrescriptions" && <ViewAllPrescription/>}
+        {activeComponent === "ViewBill" && <Billing />}  
 
       </div>
       </div>
-    </div>
+   
     </>
   );
 };

@@ -52,13 +52,14 @@ const PatientDashboard = () => {
   };
 
   return (<>
-    <div><Logout/></div>
- 
-    <div className="d-flex min-vh-100 " style={{marginTop: "40px" }}>
+  <div>
+     <Logout/>
+    </div>
+    <div className="d-flex min-vh-100 " style={{marginTop: "80px" }}>
       
       
       {/* Sidebar */}
-      <div className="bg-primary text-white p-4 px-5 m-5" style={{ width: "250px",marginTop: "10px" }}
+      <div className="bg-primary text-white p-4 px-5 " style={{ width: "250px",marginTop: "10px" }}
       >
         <div className="text-center mb-4">
           <FaUserCircle size={60} />
@@ -95,29 +96,28 @@ const PatientDashboard = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-grow-1 p-4 m-5">
-      <div className="sticky-header">
+      <div className="flex-grow-1 p-4" style={{ marginLeft: "50px", paddingTop: "80px" }}>
         <h2 className="text-primary mb-4">Patient Dashboard</h2>
 
         {/* Conditionally Render the selected page content */}
         {selectedPage === "home" && (
           <div className="row g-4">
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Upcoming Appointments</h5>
                 <p>No appointments yet.</p>
               </div>
             </div>
 
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Last Prescription</h5>
                 <p>No prescriptions found.</p>
               </div>
             </div>
 
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Outstanding Bills</h5>
                 <p>₹0.00</p>
               </div>
@@ -142,7 +142,7 @@ const PatientDashboard = () => {
         {/* No need to render PatientsLogin manually here */}
       </div>
       </div>
-    </div>
+    
     </>
   );
 };

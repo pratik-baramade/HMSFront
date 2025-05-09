@@ -47,7 +47,7 @@ const EditDoctor = () => {
 
   return (
     <div className="container mt-4">
-      <div className="card p-4 shadow bg-light">
+      <div className=" p-4 shadow bg-light">
         <h5 className="text-primary mb-3">Edit Your Profile</h5>
         <form onSubmit={handleSubmit} className="row g-3">
           <div className="col-md-6">

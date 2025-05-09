@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PatientsService from "../PatientsService";
 import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
+
 
 const AddPatient = () => {
   const [PData, SetPatients] = useState({
@@ -9,10 +11,11 @@ const AddPatient = () => {
     gender: "",
     maritalstatus: "",
     email: "",
-    mobileNumber: "", // corrected spelling
+    mobailenumber: "", 
     wpnumber: "",
     address: ""
   });
+  const navigate = useNavigate();
 
   const [sms, setsms] = useState("");
 
@@ -83,11 +86,11 @@ const AddPatient = () => {
     }
 
     // Mobile number validation
-    if (!PData.mobileNumber.trim()) { // updated to match the state
+    if (!PData.mobailenumber.trim()) { // updated to match the state
       Swal.fire("Validation Error", "Please enter a valid mobile number.", "warning");
       return;
     }
-    if (!/^\d{10}$/.test(PData.mobileNumber)) { // updated to match the state
+    if (!/^\d{10}$/.test(PData.mobailenumber)) { // updated to match the state
       Swal.fire("Validation Error", "Mobile number must be 10 digits.", "warning");
       return;
     }
@@ -139,7 +142,18 @@ const AddPatient = () => {
       });
   };
 
-  return (
+  return (<>
+  <div className="d-flex justify-content-start mb-3">
+  <button
+    className="btn btn-outline-primary"
+    onClick={() => navigate('/')}
+  >
+    ← Back to Home
+  </button>
+</div>
+
+ 
+    
     <div className="patientcontainer mt-4 d-flex justify-content-center ">
       <div className="card shadow-sm p-3" style={{ maxWidth: "100%", width: "100%", height:"500px" }}>
         <h4 className="text-center mb-3 fw-semibold text-primary">➕ Add New Patient</h4>
@@ -172,8 +186,9 @@ const AddPatient = () => {
               <input type="text" className="form-control form-control-sm p-2" id="email" name="email" value={PData.email} onChange={Universalhand} />
             </div>
             <div className="col-12 col-md-6 mb-2">
-              <label htmlFor="mobileNumber" className="form-label">Mobile Number</label>
-              <input type="text" className="form-control form-control-sm p-2" id="mobileNumber" name="mobileNumber" value={PData.mobileNumber} onChange={Universalhand} />
+              <label htmlFor="mobailenumber" className="form-label">Mobile Number</label>
+              <input type="text" className="form-control form-control-sm p-2" id="mobailenumber" name="mobailenumber" value={PData.mobailenumber} onChange={Universalhand} />
+
             </div>
           </div>
 
@@ -193,7 +208,7 @@ const AddPatient = () => {
         </form>
       </div>
     </div>
-  );
+    </>);
 };
 
 export default AddPatient;

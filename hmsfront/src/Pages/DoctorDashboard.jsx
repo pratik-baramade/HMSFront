@@ -94,29 +94,28 @@ const DoctorDashboard = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-grow-1 p-4">
-      <div className="sticky-header">
+      <div className="flex-grow-1 p-4" style={{ marginLeft: "50px", paddingTop: "80px" }}>
         <h2 className="text-primary mb-4">Doctor Dashboard</h2>
 
         {/* Conditionally Render Selected Page */}
         {selectedPage === "home" && (
           <div className="row g-4">
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Today's Appointments</h5>
                 <p>No appointments scheduled yet.</p>
               </div>
             </div>
 
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Pending Prescriptions</h5>
                 <p>No pending prescriptions.</p>
               </div>
             </div>
 
             <div className="col-md-4">
-              <div className="card shadow rounded p-3">
+              <div className=" shadow rounded p-3">
                 <h5>Upcoming Follow-ups</h5>
                 <p>No follow-ups scheduled.</p>
               </div>
@@ -140,7 +139,7 @@ const DoctorDashboard = () => {
         {selectedPage === "profile" && <EditDoctor />}
       </div>
       </div>
-    </div>
+    
     </>
   );
 };
