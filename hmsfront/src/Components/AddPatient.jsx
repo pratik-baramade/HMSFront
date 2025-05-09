@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PatientsService from "../PatientsService";
 import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
+
 
 const AddPatient = () => {
   const [PData, SetPatients] = useState({
@@ -13,6 +15,7 @@ const AddPatient = () => {
     wpnumber: "",
     address: ""
   });
+  const navigate = useNavigate();
 
   const [sms, setsms] = useState("");
 
@@ -139,7 +142,18 @@ const AddPatient = () => {
       });
   };
 
-  return (
+  return (<>
+  <div className="d-flex justify-content-start mb-3">
+  <button
+    className="btn btn-outline-primary"
+    onClick={() => navigate('/')}
+  >
+    ← Back to Home
+  </button>
+</div>
+
+ 
+    
     <div className="patientcontainer mt-4 d-flex justify-content-center ">
       <div className="card shadow-sm p-3" style={{ maxWidth: "100%", width: "100%", height:"500px" }}>
         <h4 className="text-center mb-3 fw-semibold text-primary">➕ Add New Patient</h4>
@@ -194,7 +208,7 @@ const AddPatient = () => {
         </form>
       </div>
     </div>
-  );
+    </>);
 };
 
 export default AddPatient;

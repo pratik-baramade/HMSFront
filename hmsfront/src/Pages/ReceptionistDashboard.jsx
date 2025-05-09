@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom"; 
 import LogoutButton from "../LoginPages/LogoutButton";
+import ViewScheduleReceptionist from "../Components/ViewScheduleRecipnest";
+import ViewAllPrescription from "../Components/ViewAllPrescription";
 import {
   FaUserPlus,
   FaUsers,
@@ -20,6 +22,7 @@ import ViewBill from "../Components/ViewBill";
 import ViewTests from "../Components/ViewTests";
 import AddTest from "../Components/AddTest";
 import Logout from "./Logout";
+import Billing from "../Components/Billing";
 import PatientPrescriptions from "../Components/PatientPrescriptions";
 
 
@@ -176,13 +179,13 @@ const ReceptionistDashboard = () => {
         {/* Conditionally render the components when the menu item is clicked */}
         {activeComponent === "addPatient" && <AddPatient />}
         {activeComponent === "viewPatients" && <ViewPatients />}
-        {activeComponent === "scheduleAppointment" && <ViewSchedule/>}
+        {activeComponent === "scheduleAppointment" && <ViewScheduleReceptionist/>}
         {activeComponent === "viewAppointments" && <ViewAppointmentsReceptionist/>}
         {activeComponent === "viewBilling" && <ViewBill />}
         {activeComponent === "viewTest" && <ViewTests />}
         {activeComponent === "addTest" && <AddTest />}
-        {activeComponent === "PatientPrescriptions" && <PatientPrescriptions />}
-        {activeComponent === "ViewBill" && <ViewBill />}  
+        {activeComponent === "PatientPrescriptions" && <ViewAllPrescription/>}
+        {activeComponent === "ViewBill" && <Billing />}  
 
       </div>
       </div>

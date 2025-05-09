@@ -110,7 +110,7 @@ const EditPatientsProfile = () => {
 
   return (
     <div className="container mt-4">
-      <div className="shadow p-4">
+      <div className="card shadow p-4">
         <h4 className="mb-4 text-primary">Edit Profile</h4>
         <form onSubmit={handleSubmit} className="row g-3">
       

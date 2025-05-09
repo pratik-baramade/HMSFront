@@ -1,7 +1,7 @@
 import axios from "axios";
 let addPricription="http://localhost:8080/hms/createpricription";
 let showPrescriptionbyId="http://localhost:8080/hms/getprescription"
-let showAllPerscription="http://localhost:8080/hms/getAllPericription"
+let showAllPerscription="http://localhost:8080/hms/getAllprescription"
 class CheckupService{
     
     showPrescriptionByID(id) {
@@ -13,7 +13,6 @@ class CheckupService{
   
       }
   
-
       ShowAllPerscription()
       {
         return axios.get(showAllPerscription);

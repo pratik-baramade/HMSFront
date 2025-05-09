@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const UpdatePatient = ({ patient, onUpdate, onCancel }) => {
   const [formData, setFormData] = useState({ ...patient });
+  const navigate = useNavigate();
 
   useEffect(() => {
     setFormData({ ...patient });
@@ -20,7 +22,16 @@ const UpdatePatient = ({ patient, onUpdate, onCancel }) => {
     onUpdate(formData);
   };
 
-  return (
+  return (<>
+   <div className="d-flex justify-content-start mb-3">
+  <button
+    className="btn btn-outline-primary"
+    onClick={() => navigate('/')}
+  >
+    ← Back to Home
+  </button>
+</div>
+
     <div className="card mt-4 shadow p-4">
       <h5 className="mb-3 text-primary">Update Patient Details</h5>
       <form onSubmit={handleSubmit} className="row g-3">
@@ -114,7 +125,7 @@ const UpdatePatient = ({ patient, onUpdate, onCancel }) => {
         </div>
       </form>
     </div>
-  );
+    </>);
 };
 
 export default UpdatePatient;
