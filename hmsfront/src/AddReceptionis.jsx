@@ -7,18 +7,50 @@ export default function AddReceptionis() {
     receptionisted_id: "",
     name: "",
     userName: "",
-    password: ""
+    password: "",
   });
 
   const Universalhandler = (e) => {
     setReceptionist((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
   const ShowReceptionis = (e) => {
     e.preventDefault();
+
+    // Validate Name
+    if (!receptionist.name.trim()) {
+      Swal.fire("Validation Error", "Please enter Receptionist's name.", "warning");
+      return;
+    }
+    if (receptionist.name.charAt(0) !== receptionist.name.charAt(0).toUpperCase()) {
+      Swal.fire("Validation Error", "First letter of the name must be capitalized.", "warning");
+      return;
+    }
+
+    // Validate Username
+    if (!receptionist.userName.trim()) {
+      Swal.fire("Validation Error", "Please enter Receptionist's username.", "warning");
+      return;
+    }
+    if (receptionist.userName.charAt(0) !== receptionist.userName.charAt(0).toUpperCase()) {
+      Swal.fire("Validation Error", "First letter of username must be capitalized.", "warning");
+      return;
+    }
+
+    // Validate Password
+    if (!receptionist.password.trim()) {
+      Swal.fire("Validation Error", "Please enter Receptionist's password.", "warning");
+      return;
+    }
+    if (receptionist.password.length < 8) {
+      Swal.fire("Validation Error", "Password must be at least 8 characters long.", "warning");
+      return;
+    }
+
+    // Proceed to Create Receptionist if validation is successful
     ReceptionisService.CreateReceptionis(receptionist)
       .then((res) => {
         // ✅ Show success alert
@@ -35,7 +67,7 @@ export default function AddReceptionis() {
           receptionisted_id: "",
           name: "",
           userName: "",
-          password: ""
+          password: "",
         });
       })
       .catch((error) => {
@@ -43,7 +75,7 @@ export default function AddReceptionis() {
         Swal.fire({
           icon: "error",
           title: "Error!",
-          text: error.response?.data || "Error adding receptionist."
+          text: error.response?.data || "Error adding receptionist.",
         });
       });
   };
@@ -89,7 +121,7 @@ export default function AddReceptionis() {
           <div className="mb-3">
             <label htmlFor="p">Receptionist Password</label>
             <input
-              type="text"
+              type="password"
               name="password"
               className="form-control form-control-sm"
               value={receptionist.password}
