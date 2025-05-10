@@ -34,10 +34,7 @@ import AddTest from './Components/AddTest';
 import Billing from './Components/Billing';
 import InvoicePage from './Components/InvoicePage';
 import ShowPrescription from './Components/ShowPrescription';
-<<<<<<< HEAD
-=======
 import UpdatePatient from './Components/UpdatePatient';
->>>>>>> ad9186af0bd719d8f83afbd70888ebc00eff6b95
 
 
 function App() {

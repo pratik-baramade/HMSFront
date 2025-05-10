@@ -10,6 +10,7 @@ import WritePrescription from "../Components/WritePrescription";
 import ViewSchedule from "../Components/ViewSchedule";
 import EditDoctor from "../Components/EditDOctor";
 import Logout from "./Logout";
+import MedicalCertificateForm from "../Components/MedicalCertificateForm";
 
 const DoctorDashboard = () => {
   const [doctorName, setDoctorName] = useState("Doctor");
@@ -74,14 +75,15 @@ const DoctorDashboard = () => {
               <FaUserInjured className="me-2" /> Manage Patients
             </button>
           </li>
-          <li className="nav-item">
-            <button onClick={() => handleNavClick("prescriptions")} className="nav-link text-white btn btn-link">
-              <FaPrescriptionBottleAlt className="me-2" /> Write Prescriptions
-            </button>
-          </li>
+          
           <li className="nav-item">
             <button onClick={() => handleNavClick("schedule")} className="nav-link text-white btn btn-link">
               <FaClock className="me-2" /> View Schedule
+            </button>
+          </li>
+          <li className="nav-item">
+            <button onClick={() => handleNavClick("Medical Certificate")} className="nav-link text-white btn btn-link">
+              <FaPrescriptionBottleAlt className="me-2" /> Medical Certificate
             </button>
           </li>
           <li className="nav-item">
@@ -134,7 +136,8 @@ const DoctorDashboard = () => {
 
         {selectedPage === "appointments" && <ViewAppointments />}
         {selectedPage === "patients" && <ManagePatients />}
-        {selectedPage === "prescriptions" && <WritePrescription />}
+        {selectedPage === "Medical Certificate" && <MedicalCertificateForm/>}
+        
         {selectedPage === "schedule" && <ViewSchedule />}
         {selectedPage === "profile" && <EditDoctor />}
       </div>
