@@ -15,6 +15,7 @@ import AddReceptionis from '../AddReceptionis';
 import ReceptionisService from '../ReceptionisService';
 import ViewReceptionists from '../ViewReceptionists';
 import Logout from './Logout';
+import TotalAmount from '../Components/TotalAmount';
 
 const AdminPanel = () => {
   const [activeModule, setActiveModule] = useState('home');
@@ -106,6 +107,15 @@ const AdminPanel = () => {
             </ul>
           )}
         </li>
+
+         <li className="menu-item p-2" onClick={() => setActiveModule('TotalAmount')}>
+          Check Bank Balanace
+          {activeModule === 'TotalAmount' && (
+            <ul className="list-unstyled ps-3">
+              <li className="p-2" onClick={() => setSubModule('TotalAmount')}>Total Amount</li>
+            </ul>
+          )}
+        </li>
       </ul>
     </div>
   );
@@ -128,6 +138,8 @@ const AdminPanel = () => {
         return <ViewPharmacy />;
       case 'viewTests':
         return <ViewTests />;
+        case 'TotalAmount':
+          return <TotalAmount/>
       default:
    return (
   <div className="container mt-5">

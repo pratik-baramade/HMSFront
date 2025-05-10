@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import BillingService from "../BillingService";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const InvoicePage = () => {
   const { billId } = useParams();
   const [bill, setBill] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     BillingService.getBillByBillId(billId)
@@ -16,21 +17,16 @@ const InvoicePage = () => {
 
   const generatePDF = () => {
     const doc = new jsPDF();
-  
-    // Header
     doc.setFontSize(18);
     doc.text("LifeLine Hospital", 105, 20, null, null, "center");
-  
+
     doc.setFontSize(14);
     doc.text("INVOICE", 105, 30, null, null, "center");
-  
-    // Horizontal line
-    doc.line(10, 35, 200, 35); // x1, y1, x2, y2
-  
-    // Content
+    doc.line(10, 35, 200, 35);
+
     doc.setFontSize(12);
     let y = 45;
-  
+
     doc.text(`Bill ID: ${bill.bill_id}`, 20, y);
     y += 10;
     doc.text(`Patient Name: ${bill.patientName}`, 20, y);
@@ -40,21 +36,22 @@ const InvoicePage = () => {
     doc.text(`Payment Status: ${bill.payment_Status}`, 20, y);
     y += 10;
     doc.text(`Payment Mode: ${bill.payment_mode}`, 20, y);
-  
-    // Footer line
+
     doc.line(10, y + 10, 200, y + 10);
     doc.setFontSize(10);
     doc.text("Thank you for choosing Life Hospital.", 105, y + 20, null, null, "center");
-  
-    // Save the file
     doc.save(`Invoice_Bill_${bill.bill_id}.pdf`);
   };
-  
 
   if (!bill) return <div className="text-center mt-5">Loading...</div>;
 
   return (
     <div className="container mt-5">
+      <div className="d-flex justify-content-start mb-3">
+        <button className="btn btn-outline-primary" onClick={() => navigate('/receptionist/dashboard')}>
+          ← Back to Home
+        </button>
+      </div>
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card shadow-lg">
