@@ -150,10 +150,7 @@ const BookAppointment = () => {
             </div>
 
 
-            <div className="col-12 text-center">
-            <button type="button" className="btn btn-danger px-4 mt-2 me-2  text-white" onClick={() => navigate("/user")}>Back</button>
-
-            </div>
+            
           </div>
         </form>
       </div>

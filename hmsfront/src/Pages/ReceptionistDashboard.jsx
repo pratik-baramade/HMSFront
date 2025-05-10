@@ -24,6 +24,7 @@ import AddTest from "../Components/AddTest";
 import Logout from "./Logout";
 import Billing from "../Components/Billing";
 import PatientPrescriptions from "../Components/PatientPrescriptions";
+import ViewCertificates from "../Components/ViewCertificates ";
 
 
 
@@ -90,6 +91,12 @@ const ReceptionistDashboard = () => {
           <li className="nav-item">
             <NavLink to="#" className="nav-link text-white"onClick={() => handleMenuClick("PatientPrescriptions")}>
             <FaCalendarPlus className="me-2" /> prescription
+            </NavLink>
+          </li>
+
+           <li className="nav-item">
+            <NavLink to="#" className="nav-link text-white"onClick={() => handleMenuClick("MedicalCertificate")}>
+            <FaCalendarPlus className="me-2" /> MedicalCertificate
             </NavLink>
           </li>
           <li className="nav-item">
@@ -186,6 +193,7 @@ const ReceptionistDashboard = () => {
         {activeComponent === "addTest" && <AddTest />}
         {activeComponent === "PatientPrescriptions" && <ViewAllPrescription/>}
         {activeComponent === "ViewBill" && <Billing />}  
+        {activeComponent === "MedicalCertificate" && <ViewCertificates/>}  
 
       </div>
       </div>

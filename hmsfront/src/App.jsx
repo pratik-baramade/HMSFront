@@ -35,10 +35,7 @@ import Billing from './Components/Billing';
 import InvoicePage from './Components/InvoicePage';
 import ShowPrescription from './Components/ShowPrescription';
 import UpdatePatient from './Components/UpdatePatient';
-<<<<<<< HEAD
-=======
 import AdminLogin from './Pages/AdminLogin';
->>>>>>> a724a20623222be36eec1974e53c6c2a834a0b6c
 
 
 function App() {

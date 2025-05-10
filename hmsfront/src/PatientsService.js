@@ -1,20 +1,26 @@
 import axios from "axios";
-<<<<<<< HEAD
 
-=======
->>>>>>> a724a20623222be36eec1974e53c6c2a834a0b6c
 let addp="http://localhost:8080/hms/createPatients";
 let showp="http://localhost:8080/hms/getAllPatients";
 let searchpatients="http://localhost:8080/hms/searchpatientsByName";
 let deletepatients="http://localhost:8080/hms/deleteById";
 let updatepatients="http://localhost:8080/hms/update";
-<<<<<<< HEAD
-
-=======
->>>>>>> a724a20623222be36eec1974e53c6c2a834a0b6c
+let AddMedicaleCertificate="http://localhost:8080/hms/CreateMediCerti";
+let ViewAllCertificates="http://localhost:8080/hms/ViewCertificates";
 class PatientsService{
     getPatients(){
         return axios.get(showp);
+    }
+
+    getCertificate()
+    {
+      return axios.get(ViewAllCertificates);
+    }
+
+    
+    CreateCertificate(Certificate)
+    {
+      return axios.post(AddMedicaleCertificate,Certificate);
     }
     CreatePatients(Patient){
       return axios.post(addp,Patient);

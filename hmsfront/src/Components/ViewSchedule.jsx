@@ -2,48 +2,44 @@ import React, { useState, useEffect } from "react";
 import AppointmentService from "../AppointmentService";
 import { FaCalendarAlt, FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
-// Helper to get ISO date format (yyyy-mm-dd)
 const getISODate = (date) => new Date(date).toISOString().split("T")[0];
 
 const ViewSchedule = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const appointmentsPerPage = 5;
 
   useEffect(() => {
-    const doctor = JSON.parse(localStorage.getItem("user"));
-    const doctorId = doctor?.doctor_id;
+  const doctor = JSON.parse(localStorage.getItem("user"));
+  const doctorId = doctor?.doctor_id;
 
-    if (!doctorId) {
-      console.error("❌ No doctor ID found in localStorage.");
-      return;
-    }
+  if (!doctorId) {
+    console.error("❌ No doctor ID found in localStorage.");
+    return;
+  }
 
-    AppointmentService.getAppointment()
-      .then((response) => {
-        const doctorAppointments = response.data.filter(
-          (appt) => appt.doctor_id === doctorId
-        );
-        setAppointments(doctorAppointments);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching appointments: ", error);
-      });
-  }, []);
+  AppointmentService.getAppointment()
+    .then((response) => {
+      const doctorAppointments = response.data
+        .filter((appt) => appt.doctor_id === doctorId)
+        .sort((a, b) => new Date(b.appointment_date) - new Date(a.appointment_date)); // 🔁 sort recent first
 
-  // ✅ Group appointments by date
-  const groupByDate = (data) => {
-    const grouped = {};
-    data.forEach((appt) => {
-      const dateKey = getISODate(appt.appointment_date);
-      if (!grouped[dateKey]) grouped[dateKey] = [];
-      grouped[dateKey].push(appt);
+      setAppointments(doctorAppointments);
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching appointments: ", error);
+      setLoading(false);
     });
-    return grouped;
-  };
+}, []);
 
-  const groupedAppointments = groupByDate(appointments);
-  const sortedDates = Object.keys(groupedAppointments).sort((a, b) => new Date(b) - new Date(a)); // latest first
+  const indexOfLastAppointment = currentPage * appointmentsPerPage;
+  const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
+  const currentAppointments = appointments.slice(indexOfFirstAppointment, indexOfLastAppointment);
+  const totalPages = Math.ceil(appointments.length / appointmentsPerPage);
+
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="container mt-5">
@@ -56,47 +52,58 @@ const ViewSchedule = () => {
           ❌ You don’t have any appointments scheduled.
         </p>
       ) : (
-        sortedDates.map((date) => (
-          <div key={date} className="mb-5">
-            <h4 className="text-center text-info mb-3">
-              📅 {date === getISODate(new Date()) ? "Today" : date}
-            </h4>
-            <div className="row">
-              {groupedAppointments[date].map((appointment) => (
-                <div className="col-md-4 mb-4" key={appointment.appointment_id}>
-                  <div className=" shadow-sm border-primary">
-                    <div className="card-body">
-                      <h5 className="card-title text-primary">
-                        Appointment ID: <strong>{appointment.appointment_id}</strong>
-                      </h5>
-                      <p className="card-text">
-                        <strong><FaCalendarAlt /> Patient ID:</strong> {appointment.patient_id}
-                      </p>
-                      <p className="card-text">
-                        <strong><FaClock /> Time:</strong> {appointment.time}
-                      </p>
-                      <p className="card-text">
-                        <strong>Date:</strong> {getISODate(appointment.appointment_date)}
-                      </p>
-                      <p className="card-text">
-                        <strong>Status:</strong>{" "}
-                        {appointment.status === "Completed" ? (
-                          <span className="text-success">
-                            <FaCheckCircle /> Completed
-                          </span>
-                        ) : (
-                          <span className="text-danger">
-                            <FaTimesCircle /> Pending
-                          </span>
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+        <>
+          <div className="table-responsive">
+            <table className="table table-bordered table-hover text-center">
+              <thead className="thead-dark">
+                <tr>
+                  <th>Appointment ID</th>
+                  <th>Patient ID</th>
+                  <th>Time</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentAppointments.map((appointment) => (
+                  <tr key={appointment.appointment_id}>
+                    <td>{appointment.appointment_id}</td>
+                    <td>{appointment.patient_id}</td>
+                    <td><FaClock /> {appointment.time}</td>
+                    <td><FaCalendarAlt /> {getISODate(appointment.appointment_date)}</td>
+                    <td>
+                      {appointment.status === "Completed" ? (
+                        <span className="text-success">
+                          <FaCheckCircle /> Completed
+                        </span>
+                      ) : (
+                        <span className="text-danger">
+                          <FaTimesCircle /> Pending
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        ))
+
+          {/* Pagination Controls */}
+          <nav className="d-flex justify-content-center">
+            <ul className="pagination">
+              {[...Array(totalPages)].map((_, index) => (
+                <li
+                  key={index + 1}
+                  className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                >
+                  <button onClick={() => handlePageChange(index + 1)} className="page-link">
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </>
       )}
     </div>
   );
