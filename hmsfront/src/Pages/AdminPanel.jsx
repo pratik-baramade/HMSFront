@@ -1,4 +1,10 @@
+
+
 import React, { useState, useEffect } from 'react';
+
+
+import ViewPharmacy from '../Components/ViewPharmacy';
+import ViewTests from '../Components/ViewTests';
 import AddPatient from '../Components/AddPatient';
 import ViewPatients from '../Components/ViewPatients';
 import PatientsService from '../PatientsService';
@@ -9,10 +15,11 @@ import AddReceptionis from '../AddReceptionis';
 import ReceptionisService from '../ReceptionisService';
 import ViewReceptionists from '../ViewReceptionists';
 import Logout from './Logout';
-const AdminPanel = () => {
-  const [activeModule, setActiveModule] = useState(null);
-  const [activeComponent, setActiveComponent] = useState(null);
 
+const AdminPanel = () => {
+  const [activeModule, setActiveModule] = useState('home');
+  const [subModule, setSubModule] = useState('');
+  
   const [counts, setCounts] = useState({
     patients: 0,
     doctors: 0,
@@ -39,136 +46,141 @@ const AdminPanel = () => {
     fetchPatientCount();
   }, []);
 
- 
 
-  const handleModuleClick = (module) => {
-    setActiveModule(module);
-    setActiveComponent(null); // reset component view
-  };
+  useEffect(() => {
+    // When activeModule changes, reset subModule
+    setSubModule('');
+  }, [activeModule]);
 
-  const renderModuleButtons = () => {
-    if (activeModule === 'doctors') {
-      return (
-        <div className="d-flex justify-content-center gap-3 mb-4 flex-wrap">
-          <button
-            className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'add' ? 'bg-primary' : 'bg-dark'}`}
-            onClick={() => setActiveComponent('add')}
-          >
-            Add Doctor
-          </button>
-          <button
-            className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'view' ? 'bg-primary' : 'bg-dark'}`}
-            onClick={() => setActiveComponent('view')}
-          >
-            Show Doctors
-          </button>
-        </div>
-      );
-    }
-    
-    if (activeModule === 'patients') {
-      return (
-        <div className="d-flex justify-content-center gap-3 mb-4 flex-wrap">
-          <button
-            className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'add' ? 'bg-primary' : 'bg-dark'}`}
-            onClick={() => setActiveComponent('add')}
-          >
-            Add Patient
-          </button>
-          <button
-            className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'view' ? 'bg-primary' : 'bg-dark'}`}
-            onClick={() => setActiveComponent('view')}
-          >
-            Show Patients
-          </button>
-        </div>
-      );
-    } else if (activeModule === 'receptionists') {
-      return (
-        <div className="d-flex justify-content-center gap-3 mb-4 flex-wrap">
-          <button
-            className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'add' ? 'bg-primary' : 'bg-dark'}`}
-            onClick={() => setActiveComponent('add')}
-          >
-            Add Receptionist
-          </button>
-          <button
-            className={`btn px-4 py-2 rounded-3 shadow-sm text-white ${activeComponent === 'view' ? 'bg-primary' : 'bg-dark'}`}
-            onClick={() => setActiveComponent('view')}
-          >
-            Show Receptionists
-          </button>
-        </div>
-      );
+  const renderSidebar = () => (
+    <div
+      className="bg-primary text-white p-3"
+      style={{ width: '250px', height: '100vh', borderRight: '2px solid #ddd' }}
+    >
+      <h3 className="mb-4 text-center">Admin Dashboard</h3>
+      <ul className="list-unstyled">
+        <li className="menu-item p-2" onClick={() => setActiveModule('patients')}>
+          Patients
+          {activeModule === 'patients' && (
+            <ul className="list-unstyled ps-3">
+              <li className="p-2" onClick={() => setSubModule('addPatient')}>Add Patient</li>
+              <li className="p-2" onClick={() => setSubModule('viewPatients')}>View Patients</li>
+            </ul>
+          )}
+        </li>
+        
+        <li className="menu-item p-2" onClick={() => setActiveModule('doctors')}>
+          Doctors
+          {activeModule === 'doctors' && (
+            <ul className="list-unstyled ps-3">
+              <li className="p-2" onClick={() => setSubModule('addDoctor')}>Add Doctor</li>
+              <li className="p-2" onClick={() => setSubModule('viewDoctors')}>View Doctors</li>
+            </ul>
+          )}
+        </li>
 
-      
-    }
-    return null;
-  };
+        <li className="menu-item p-2" onClick={() => setActiveModule('receptionists')}>
+          Receptionists
+          {activeModule === 'receptionists' && (
+            <ul className="list-unstyled ps-3">
+              <li className="p-2" onClick={() => setSubModule('addReceptionist')}>Add Receptionist</li>
+              <li className="p-2" onClick={() => setSubModule('viewReceptionists')}>View Receptionists</li>
+            </ul>
+          )}
+        </li>
 
-  const getModuleBackground = () => {
-    switch (activeModule) {
-      case 'patients':
-        return 'bg-success-subtle';
-      case 'doctors':
-        return 'bg-purple-100';
-      case 'receptionists':
-        return 'bg-pink-100';
+        <li className="menu-item p-2" onClick={() => setActiveModule('pharmacy')}>
+          Pharmacy
+          {activeModule === 'pharmacy' && (
+            <ul className="list-unstyled ps-3">
+              <li className="p-2" onClick={() => setSubModule('viewPharmacy')}>View Pharmacy</li>
+            </ul>
+          )}
+        </li>
+
+        <li className="menu-item p-2" onClick={() => setActiveModule('tests')}>
+          Lab Tests
+          {activeModule === 'tests' && (
+            <ul className="list-unstyled ps-3">
+              <li className="p-2" onClick={() => setSubModule('viewTests')}>View Lab Tests</li>
+            </ul>
+          )}
+        </li>
+      </ul>
+    </div>
+  );
+
+  const renderContent = () => {
+    switch (subModule) {
+      case 'addPatient':
+        return <AddPatient />;
+      case 'viewPatients':
+        return <ViewPatients />;
+      case 'addDoctor':
+        return <AddDoctor />;
+      case 'viewDoctors':
+        return <ViewDoctors />;
+      case 'addReceptionist':
+        return <AddReceptionis />;
+      case 'viewReceptionists':
+        return <ViewReceptionists />;
+      case 'viewPharmacy':
+        return <ViewPharmacy />;
+      case 'viewTests':
+        return <ViewTests />;
       default:
-        return 'bg-light';
+   return (
+  <div className="container mt-5">
+    <div className=" p-5 rounded-lg shadow-lg">
+      <h2 className="text-center display-4 mb-4 animate__animated animate__fadeIn">Welcome to the Admin Dashboard</h2>
+      <p className="text-center mb-5">Manage Patients, Doctors, Receptionists, Pharmacy, and Lab Tests easily from here.</p>
+      
+      {/* Stats Section */}
+      <div className="row text-center">
+        <div className="col-md-4 mb-4">
+          <div className="bg-white p-4 rounded-lg shadow-lg">
+            <h1 className="h5 text-secondary">Total Patients</h1>
+            <p className="display-3 text-primary">{counts.patients}
+</p>
+          </div>
+        </div>
+        <div className="col-md-4 mb-4">
+          <div className="bg-white p-4 rounded-lg shadow-lg">
+            <h3 className="h5 text-secondary">Total Doctors</h3>
+            <p className="display-3 text-primary"> {counts.doctors}
+</p>
+          </div>
+        </div>
+        <div className="col-md-4 mb-4">
+          <div className="bg-white p-4 rounded-lg shadow-lg">
+            <h3 className="h5 text-secondary">Total Receptionists</h3>
+            <p className="display-3 text-primary">   {counts.receptionists}
+</p>
+          </div>
+        </div>
+      </div>
+      
+     
+      
+    </div>
+  </div>
+);
+
+
     }
   };
 
   return (<>
-  <Logout/>
-    <div className={`p-4 rounded-4 ${getModuleBackground()} shadow-sm`} style={{ minHeight: '100vh', marginTop:'80px'}}>
-      <h2 className="text-center text-primary fw-bold mb-4">🏥 Admin Dashboard</h2>
-
-      {/* Tab-Like Module Selector */}
-      <div className="d-flex justify-content-center gap-3 mb-4 flex-wrap">
-        <button
-          onClick={() => handleModuleClick('patients')}
-          className={`btn fw-semibold px-4 py-2 rounded-3 shadow-sm text-black ${activeModule === 'patients' ? 'bg-success' : 'bg-success'}`}
-        >
-          Patients ({counts.patients})
-        </button>
-        <button
-          onClick={() => handleModuleClick('doctors')}
-          className={`btn fw-semibold px-4 py-2 rounded-3 shadow-sm text-black ${activeModule === 'doctors' ? 'bg-purple' : 'bg-purple-100'}`}
-          style={{ backgroundColor: activeModule === 'doctors' ? '#6f42c1' : '#e0d4f5' }}
-        >
-          Doctors ({counts.doctors})
-        </button>
-        <button
-          onClick={() => handleModuleClick('receptionists')}
-          className={`btn fw-semibold px-4 py-2 rounded-3 shadow-sm text-black ${activeModule === 'receptionists' ? 'bg-success' : 'bg-success'}`}
-          
-        >
-          Receptionists ({counts.receptionists})
-        </button>
-      </div>
-
-      {renderModuleButtons()}
-
-      {/* Content Box */}
-      <div className="p-4 bg-white border rounded-4 shadow">
-        {activeModule === 'patients' && activeComponent === 'add' && <AddPatient />}
-        {activeModule === 'patients' && activeComponent === 'view' && <ViewPatients />}
-
-        {activeModule === 'doctors' && activeComponent === 'add' && <AddDoctor/>}
-        {activeModule === 'doctors' && activeComponent === 'view' && <ViewDoctors />}
-
-        {activeModule === 'receptionists' && activeComponent === 'add' && <AddReceptionis />}
-        {activeModule === 'receptionists' && activeComponent === 'view' && <ViewReceptionists />}
-
-        {!activeModule && (
-          <p className="text-center text-muted">⬆️ Please select a module to begin.</p>
-        )}
+  <div>
+    <Logout/>
+  </div>
+    <div className="d-flex " style={{marginTop:"90px"}}>
+      {renderSidebar()}
+      <div className="flex-grow-1 p-4">
+        {renderContent()}
       </div>
     </div>
-    </>
-  );
+  </>);
 };
 
 export default AdminPanel;
-

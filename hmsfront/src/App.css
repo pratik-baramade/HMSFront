@@ -108,3 +108,11 @@
   width: 100%;
   margin: 0; /* Remove any default margin */
 }
+/* Custom hover effect */
+.menu-item:hover {
+  background-color: rgb(60, 140, 214); 
+}
+
+.menu-item a:hover {
+  color: black;
+}

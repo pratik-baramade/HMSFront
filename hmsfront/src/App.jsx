@@ -35,6 +35,7 @@ import Billing from './Components/Billing';
 import InvoicePage from './Components/InvoicePage';
 import ShowPrescription from './Components/ShowPrescription';
 import UpdatePatient from './Components/UpdatePatient';
+import AdminLogin from './Pages/AdminLogin';
 
 
 function App() {
@@ -69,10 +70,13 @@ function App() {
         {/* Main Content */}
         <div className="slide container-fluid px-4" style={{ minHeight: "calc(100vh - 80px)", paddingTop: '5px' }}>
           <Routes>
+            
             <Route path='/' element={<VideoPlayer />} />
             <Route path="/update-patient/:id" element={<UpdatePatient />} />
             <Route path='/patientslogin' element={<PatientsLogin />} />
             <Route path='/doctorlogin' element={<DoctorLogin />} />
+            <Route path='/admin'element={<AdminLogin/>}/>
+            <Route path="/adminpanel" element={<AdminPanel />} />
             <Route path='/ReceptionistLogin' element={<ReceptionistLogin />} />
             <Route path='/admin' element={<AdminPanel />} />
             <Route path='/viewDoctors' element={<DoctorDashboard />} />
