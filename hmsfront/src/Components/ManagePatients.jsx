@@ -153,14 +153,9 @@ const ManagePatients = () => {
                 <td>{patient.patientId}</td>
                 <td>{patient.name}</td>
                 <td>{patient.dob}</td>
-                <td>{patient.mobile}</td>
+                <td>{patient.mobailenumber}</td>
                 <td>
-                  <button
-                    className="btn btn-primary btn-sm me-2"
-                    onClick={() => handleExpand(patient.patientId)}
-                  >
-                    {expandedPatientId === patient.patientId ? "Cancel" : "Write Prescription"}
-                  </button>
+                 
                   <button
                     className="btn btn-warning btn-sm me-2"
                     onClick={() => navigate(`/update-patient/${patient.patientId}`)}
@@ -176,112 +171,7 @@ const ManagePatients = () => {
                 </td>
               </tr>
 
-              {expandedPatientId === patient.patientId && (
-                <tr>
-                  <td colSpan="5">
-                    <div className="p-3 bg-light border rounded">
-                      <h5>Write Prescription for {patient.name}</h5>
-
-                      <div className="mb-2">
-                        <label>Symptoms:</label>
-                        <textarea
-                          className="form-control"
-                          value={symptoms}
-                          onChange={(e) => setSymptoms(e.target.value)}
-                        ></textarea>
-                      </div>
-
-                      <h6>Medicines (Count: {medicines.length}):</h6>
-                      {medicines.map((med, index) => (
-                        <div className="row mb-2" key={index}>
-                          <div className="col-md-6">
-                            <input
-                              type="text"
-                              list="pharmacy-names"
-                              className="form-control"
-                              placeholder="Medicine name"
-                              value={med.name}
-                              onChange={(e) => handleMedicineChange(index, e.target.value)}
-                            />
-                            <datalist id="pharmacy-names">
-                              {pharmacyList.map((m) => (
-                                <option key={m.id} value={m.name} />
-                              ))}
-                            </datalist>
-                          </div>
-                          <div className="col-md-4">
-                            <input
-                              type="number"
-                              className="form-control"
-                              placeholder="Price"
-                              value={med.price}
-                              onChange={(e) => handlePriceChange(index, e.target.value)}
-                              disabled={!med.isCustom && pharmacyList.some(p => p.name === med.name)}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                      <button className="btn btn-secondary btn-sm mb-3" onClick={addMedicineField}>
-                        + Add Medicine
-                      </button>
-
-                      <h6>Tests (Count: {tests.length}):</h6>
-                      {tests.map((test, index) => (
-                        <div className="row mb-2" key={index}>
-                          <div className="col-md-6">
-                            <input
-                              type="text"
-                              list="test-names"
-                              className="form-control"
-                              placeholder="Test name"
-                              value={test.name}
-                              onChange={(e) => handleTestChange(index, e.target.value)}
-                            />
-                            <datalist id="test-names">
-                              {testList.map((t) => (
-                                <option key={t.test_id} value={t.test_name} />
-                              ))}
-                            </datalist>
-                          </div>
-                          <div className="col-md-4">
-                            <input
-                              type="number"
-                              className="form-control"
-                              placeholder="Fee"
-                              value={test.fess}
-                              onChange={(e) => handleFeeChange(index, e.target.value)}
-                              disabled={!test.isCustom && testList.some(t => t.test_name === test.name)}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                      <button className="btn btn-secondary btn-sm mb-3" onClick={addTestField}>
-                        + Add Test
-                      </button>
-
-                      <div className="mb-2">
-                        <label>Discount (%):</label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          value={discount}
-                          onChange={(e) => setDiscount(e.target.value)}
-                        />
-                      </div>
-
-                      <h6>
-                        Medicines: ₹{medicineTotal.toFixed(2)} (Count: {medicines.length}) | 
-                        Tests: ₹{testTotal.toFixed(2)} (Count: {tests.length}) <br />
-                        Gross Total: ₹{grossTotal.toFixed(2)} | Net Total: ₹{netTotal.toFixed(2)}
-                      </h6>
-
-                      <button className="btn btn-success" onClick={() => handleSubmit(patient)}>
-                        Submit Prescription
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              )}
+              
             </React.Fragment>
           ))}
         </tbody>
