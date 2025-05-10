@@ -8,6 +8,8 @@ const ViewDoctors = () => {
   const [searchText, setSearchText] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [currentDoctor, setCurrentDoctor] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const doctorsPerPage = 5;
 
   useEffect(() => {
     fetchAllDoctors();
@@ -19,17 +21,14 @@ const ViewDoctors = () => {
       .catch(() => setDoctors([]));
   };
 
-  useEffect(() => {
-    if (searchText.trim() === "") {
-      fetchAllDoctors();
-    } else {
-      const filtered = doctors.filter((doc) =>
-        doc.name.toLowerCase().includes(searchText.toLowerCase())
-      );
-      setDoctors(filtered);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchText]);
+  const filteredDoctors = searchText.trim()
+    ? doctors.filter((doc) => doc.name.toLowerCase().includes(searchText.toLowerCase()))
+    : doctors;
+
+  const paginatedDoctors = filteredDoctors.slice(
+    (currentPage - 1) * doctorsPerPage,
+    currentPage * doctorsPerPage
+  );
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -47,38 +46,9 @@ const ViewDoctors = () => {
             Swal.fire("Deleted!", "Doctor has been deleted.", "success");
             fetchAllDoctors();
           })
-          .catch(() => {
-            Swal.fire("Failed!", "Something went wrong.", "error");
-          });
+          .catch(() => Swal.fire("Failed!", "Something went wrong.", "error"));
       }
     });
-  };
-
-  const handleEdit = (doctor) => {
-    setCurrentDoctor(doctor);
-    setEditMode(true);
-  };
-
-  const handleUpdateSave = (updatedDoctor) => {
-    
-    
-    DoctorsService.updateDoctor(updatedDoctor.doctorid, updatedDoctor)
-      .then(() => {
-        Swal.fire({
-          title: "Updated!",
-          text: "Doctor updated successfully.",
-          icon: "success",
-          timer: 1500,
-          showConfirmButton: false,
-        });
-        setSearchText("");
-        fetchAllDoctors();
-        setEditMode(false);
-        setCurrentDoctor(null);
-      })
-      .catch(() => {
-        Swal.fire("Failed!", "Doctor update failed.", "error");
-      });
   };
 
   return (
@@ -86,64 +56,52 @@ const ViewDoctors = () => {
       <div className="card shadow-lg p-4">
         <h3 className="text-center text-primary mb-3">Doctors Record</h3>
 
-        {/* Search */}
-        <div className="mb-3">
-          <input
-            type="text"
-            className="form-control form-control-sm"
-            placeholder="Search doctor by name..."
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-        </div>
+        <input
+          type="text"
+          className="form-control mb-3"
+          placeholder="Search doctor by name..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
 
-        <div className="table-responsive" style={{ maxHeight: "500px", overflowY: "auto" }}>
-          <table className="table table-hover table-striped table-bordered">
-            <thead className="table-info sticky-top">
+        <div className="table-responsive">
+          <table className="table table-hover">
+            <thead className="table-info">
               <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Specialization</th>
                 <th>Contact</th>
-                <th>Availability</th>
                 <th>Delete</th>
-                <th>Update</th>
               </tr>
             </thead>
             <tbody>
-              {doctors.length > 0 ? (
-                doctors.map((doc, index) => (
+              {paginatedDoctors.length > 0 ? (
+                paginatedDoctors.map((doc, index) => (
                   <tr key={index}>
                     <td>{doc.doctorid}</td>
                     <td>{doc.name}</td>
                     <td>{doc.specialization}</td>
                     <td>{doc.contact}</td>
-                    <td>{doc.availability}</td>
                     <td>
                       <button className="btn btn-danger btn-sm" onClick={() => handleDelete(doc.doctorid)}>Delete</button>
-                    </td>
-                    <td>
-                      <button className="btn btn-warning btn-sm" onClick={() => handleEdit(doc)}>Update</button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" className="text-center">No doctors found</td>
+                  <td colSpan="5" className="text-center">No doctors found</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
 
-        {editMode && currentDoctor && (
-  <UpdateDoctor
-    doctor={currentDoctor}
-    onUpdate={handleUpdateSave}
-    onCancel={() => setEditMode(false)}
-  />
-)}
-
+        <div className="d-flex justify-content-between mt-3">
+          <button className="btn btn-primary" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+          <span>Page {currentPage}</span>
+          <button className="btn btn-primary" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage * doctorsPerPage >= filteredDoctors.length}>Next</button>
+        </div>
       </div>
     </div>
   );
